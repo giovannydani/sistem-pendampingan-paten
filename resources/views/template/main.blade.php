@@ -27,7 +27,7 @@
             <div class="d-flex justify-content-between align-items-center">
               <div class="logo">
                 <a href="{{route('index')}}">
-                  <h2>Hak Cipta</h2>
+                  <h2>Paten</h2>
                 </a>
               </div>
               <div class="sidebar-toggler x">
