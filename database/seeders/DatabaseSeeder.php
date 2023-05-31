@@ -20,7 +20,12 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
-            DummyUserSeeder::class
+            DummyUserSeeder::class,
+
+            CountrySeeder::class,
+            ProvinceSeeder::class,
+            DistrictSeeder::class,
+            SubdistrictSeeder::class,
         ]);
     }
 }
