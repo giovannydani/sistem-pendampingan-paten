@@ -88,4 +88,9 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->email_verified_at != NULL;
     }
+
+    public function patents()
+    {
+        return $this->hasMany(PatentDetail::class, 'owner_id');
+    }
 }
