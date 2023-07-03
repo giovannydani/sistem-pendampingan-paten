@@ -1,8 +1,8 @@
 <?php
 
-use App\Models\Criteria;
-use App\Models\PatentType;
 use App\Models\User;
+use App\Models\PatentType;
+use App\Models\ApplicantCriteria;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -18,15 +18,11 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignIdFor(User::class, 'owner_id')->nullable();
             $table->foreign('owner_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignIdFor(PatentType::class, 'type_id')->nullable();
-            $table->foreign('type_id')->references('id')->on('patent_types')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignIdFor(Criteria::class, 'criteria_id')->nullable();
-            $table->foreign('criteria_id')->references('id')->on('criterias')->onDelete('cascade')->onUpdate('cascade');
-            $table->string('title');
-            $table->string('title_en');
-            $table->longText('abstract');
-            $table->longText('abstract_en');
-            $table->unsignedInteger('total_claim');
+            $table->foreignIdFor(PatentType::class, 'patent_type_id');
+            $table->foreign('patent_type_id')->references('id')->on('patent_types')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignIdFor(ApplicantCriteria::class, 'applicant_criterias_id');
+            $table->foreign('applicant_criterias_id')->references('id')->on('applicant_criterias')->onDelete('cascade')->onUpdate('cascade');
+            $table->boolean('fractions');
             $table->timestamps();
         });
     }

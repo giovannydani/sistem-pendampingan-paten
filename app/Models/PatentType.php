@@ -11,7 +11,6 @@ class PatentType extends Model
     use HasFactory, HasUuids;
 
     protected $fillable = [
-        'name',
-        'have_origin_patent',
+        'name'
     ];
 }

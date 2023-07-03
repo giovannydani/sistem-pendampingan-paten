@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('criterias', function (Blueprint $table) {
+        Schema::create('applicant_criterias', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
             $table->timestamps();
@@ -23,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('criterias');
+        Schema::dropIfExists('applicant_criterias');
     }
 };

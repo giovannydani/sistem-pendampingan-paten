@@ -12,40 +12,10 @@ class PatentInventor extends Model
 
     protected $fillable = [
         'detail_id',
-        'nationality_id',
-        'country_id',
-        'province_id',
-        'district_id',
-        'subdistrict_id',
         'name',
+        'nationality_id',
         'address',
-        'postal_code',
         'email',
         'telephone',
     ];
-
-    public function nationality()
-    {
-        return $this->belongsTo(Country::class, 'nationality_id');
-    }
-
-    public function country()
-    {
-        return $this->belongsTo(Country::class, 'country_id');
-    }
-
-    public function province()
-    {
-        return $this->belongsTo(Province::class, 'province_id');
-    }
-
-    public function district()
-    {
-        return $this->belongsTo(District::class, 'district_id');
-    }
-
-    public function subdistrict()
-    {
-        return $this->belongsTo(Subdistrict::class, 'subdistrict_id');
-    }
 }
