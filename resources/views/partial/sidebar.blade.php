@@ -14,13 +14,13 @@
             <i class="bi bi-grid-fill"></i>
             <span>Template</span>
             </a>
-        </li>
+        </li> --}}
         <li class="sidebar-item {{ request()->routeIs('user.ajuan.*') ? 'active' : '' }}">
             <a href="{{ route('user.ajuan.index') }}" class="sidebar-link">
             <i class="bi bi-grid-fill"></i>
             <span>Ajuan</span>
             </a>
-        </li> --}}
+        </li>
     @endif
 
     @if (auth()->user()->role->isAdmin())

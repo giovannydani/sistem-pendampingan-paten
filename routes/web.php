@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\UserRole;
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -9,6 +10,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\User\AjuanController;
 use App\Http\Controllers\User\DashboardController;
 use App\Models\User;
 
@@ -76,8 +78,20 @@ Route::group(['middleware' => ['auth']], function (){
 
     Route::group(['middleware' => ['verified']], function (){
 
+        Route::group(['as' => 'address.', 'controller' => AddressController::class], function (){
+            Route::post('/generate/district/{province}', 'generateDistrict')->name('generateDistrict');
+            Route::post('/generate/subdistrict/{district}', 'generateSubdistrict')->name('generateSubdistrict');
+        });
+
         Route::group(['as' => 'user.', 'middleware' => [UserRole::getMiddlewareUserRole()]], function (){
             Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+            Route::group(['prefix' => 'ajuan', 'as' => 'ajuan.', 'controller' => AjuanController::class], function (){
+                Route::get('/', 'index')->name('index');
+                Route::post('/data/', 'data')->name('data');
+                Route::post('/generate/', 'generateAdd')->name('generateAdd');
+                Route::put('/{patentDetail}', 'store')->name('store');
+                Route::get('/add/{patentDetail}', 'create')->name('create');
+            });
         });
 
         Route::group(['as' => 'admin.', 'prefix' => 'admin'], function (){

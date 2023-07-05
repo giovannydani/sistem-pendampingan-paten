@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\ApplicantCriteria;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class ApplicantCriteriaSeeder extends Seeder
 {
@@ -12,6 +14,21 @@ class ApplicantCriteriaSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        $criteria = [
+            [
+                'id' => fake()->uuid(),
+                'name' => 'Umum',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'id' => fake()->uuid(),
+                'name' => 'UMKM / Instansi',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+        ];
+
+        ApplicantCriteria::insert($criteria);
     }
 }

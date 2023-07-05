@@ -2,16 +2,89 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Enums\AjuanStatus;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class PatentDetail extends Model
 {
     use HasFactory, HasUuids;
 
     protected $fillable = [
-        'detail_id',
+        'owner_id',
+        'patent_type_id',
+        'applicant_criterias_id',
         'fractions',
+        'fractions_number',
+        'status',
+        'is_submited',
     ];
+
+    protected $casts = [
+        'status' => AjuanStatus::class,
+    ];
+
+    public function Owner(): BelongsTo {
+        return $this->belongsTo(User::class, 'owner_id');
+    }
+
+    public function PatentType(): BelongsTo {
+        return $this->belongsTo(PatentType::class, 'patent_type_id');
+    }
+
+    public function ApplicantCriteria(): BelongsTo {
+        return $this->belongsTo(ApplicantCriteria::class, 'applicant_criterias_id');
+    }
+
+    protected function statusText(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->status->text(),
+        );
+    }
+
+    protected function isAdminProcess(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->status->isAdminProcess(),
+        );
+    }
+
+    protected function isRevision(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->status->isRevision(),
+        );
+    }
+
+    protected function isFinish(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->status->isFinish(),
+        );
+    }
+
+    public function scopeAdminProcess(Builder $query): void
+    {
+        $query->where('status', AjuanStatus::AdminProcess->value);
+    }
+
+    public function scopeRevision(Builder $query): void
+    {
+        $query->where('status', AjuanStatus::Revision->value);
+    }
+
+    public function scopeFinish(Builder $query): void
+    {
+        $query->where('status', AjuanStatus::Finish->value);
+    }
+
+    public function scopeIsSubmited(Builder $query): void
+    {
+        $query->where('is_submited', 1);
+    }
 }

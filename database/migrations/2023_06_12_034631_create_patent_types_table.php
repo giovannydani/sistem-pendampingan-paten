@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('patent_types', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

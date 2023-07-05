@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('applicant_criterias', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

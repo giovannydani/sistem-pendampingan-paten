@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             SubdistrictSeeder::class,
 
             PatentTypeSeeder::class,
+            ApplicantCriteriaSeeder::class,
         ]);
     }
 }
