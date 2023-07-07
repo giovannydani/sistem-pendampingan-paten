@@ -4,24 +4,24 @@
         <div class="row">
             <div class="col-12">
                 <div class="row">
-                    {{-- is_fragment --}}
+                    {{-- is_fractions --}}
                     <div class="col">
                         <label class="mt-2">Apakah Permohonan Paten ini pecahan dari permohonan sebelumnya*</label>
                     </div>
                     <div class="col form-group">
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="is_fragment" id="is_fragment_yes" value="yes" checked>
-                            <label class="form-check-label" for="is_fragment_yes">
+                            <input class="form-check-input" type="radio" name="is_fractions" id="is_fractions_yes" value="yes" @checked(old('is_fractions', 'yes') == 'yes')>
+                            <label class="form-check-label" for="is_fractions_yes">
                               Yes
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="is_fragment" id="is_fragment_no" value="no">
-                            <label class="form-check-label" for="is_fragment_no">
+                            <input class="form-check-input" type="radio" name="is_fractions" id="is_fractions_no" value="no" @checked(old('is_fractions', 'yes') == 'no')>
+                            <label class="form-check-label" for="is_fractions_no">
                               No
                             </label>
                         </div>
-                        @error('is_fragment') <span class="text-danger">{{ $message }}</span> @enderror
+                        @error('is_fractions') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>
             </div>
@@ -76,14 +76,14 @@
     }
 
     $(document).ready(function () {
-        var radioValue = $("input[name='is_fragment']:checked").val();
+        var radioValue = $("input[name='is_fractions']:checked").val();
 
         showHide(radioValue);
     });
     
     
-    $("input[name='is_fragment']").on('change',function(){
-        var radioValue = $("input[name='is_fragment']:checked").val();
+    $("input[name='is_fractions']").on('change',function(){
+        var radioValue = $("input[name='is_fractions']:checked").val();
 
         showHide(radioValue);
     });

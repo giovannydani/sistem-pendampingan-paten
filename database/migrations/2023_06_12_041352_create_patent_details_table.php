@@ -23,8 +23,9 @@ return new class extends Migration
             $table->foreign('patent_type_id')->references('id')->on('patent_types')->onDelete('cascade')->onUpdate('cascade');
             $table->foreignIdFor(ApplicantCriteria::class, 'applicant_criterias_id')->nullable();
             $table->foreign('applicant_criterias_id')->references('id')->on('applicant_criterias')->onDelete('cascade')->onUpdate('cascade');
-            $table->boolean('fractions')->default(0);
+            $table->boolean('is_fractions')->default(0);
             $table->string('fractions_number')->nullable();
+            $table->date('fractions_date')->nullable();
             $table->string('status')->default(AjuanStatus::AdminProcess->value);
             $table->boolean('is_submited')->default(0);
             $table->timestamps();

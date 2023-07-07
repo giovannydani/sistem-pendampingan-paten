@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Models\Country;
+use App\Models\Province;
+use App\Models\PatentType;
 use App\Models\PatentDetail;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Illuminate\Validation\Rule;
 use App\Models\ApplicantCriteria;
-use App\Models\Country;
-use App\Models\PatentType;
-use App\Models\Province;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Validator;
 
 class AjuanController extends Controller
 {
@@ -40,9 +42,72 @@ class AjuanController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, PatentDetail $patentDetail)
     {
-        //
+        $rules = [
+            "patent_type_id" => ['required', 'exists:patent_types,id'],
+            "applicant_criteria_id" => ['required', 'exists:applicant_criterias,id'],
+
+            "name_applicant" => ['required'],
+            "email_applicant" => ['required'],
+            "no_telp_applicant" => ['required'],
+            "nationality_id_applicant" => ['required', 'exists:countries,id'],
+            "country_id_applicant" => ['required', 'exists:countries,id'],
+            "address_applicant" => ['required'],
+            "province_id_applicant" => [Rule::requiredIf($request->country_id_applicant == '8d1458c5-dde2-3ac3-901b-29d55074c4ec')],
+            "district_id_applicant" => [Rule::requiredIf($request->country_id_applicant == '8d1458c5-dde2-3ac3-901b-29d55074c4ec')],
+            "subdistrict_id_applicant" => [Rule::requiredIf($request->country_id_applicant == '8d1458c5-dde2-3ac3-901b-29d55074c4ec')],
+
+            "is_fractions" => ['required'],
+            "fractions_number" => [Rule::requiredIf($request->is_fractions == 'yes')],
+            "fractions_date" => [Rule::requiredIf($request->is_fractions == 'yes')],
+        ];
+        
+        Validator::make(
+            data: $request->all(),
+            rules: $rules,
+        )->validate();
+
+        // storing PatentDetail data
+        $dataPatentDetail = [
+            'patent_type_id' => $request->patent_type_id,
+            'applicant_criterias_id' => $request->applicant_criteria_id,
+            'is_fractions' => $request->is_fractions,
+        ];
+
+        if ($request->is_fractions == 'yes') {
+            $dataPatentDetail['fractions_number'] = $request->fractions_number;
+            $dataPatentDetail['fractions_date'] = $request->fractions_date;
+        }else {
+            $dataPatentDetail['fractions_number'] = null;
+            $dataPatentDetail['fractions_date'] = null;
+        }
+        
+        $patentDetail->update($dataPatentDetail);
+        
+        // storing PatentDetail data
+        $dataPatentApplicant = [
+            'name' => $request->name_applicant,
+            'email' => $request->email_applicant,
+            'telephone' => $request->no_telp_applicant,
+            'nationality_id' => $request->nationality_id_applicant,
+            'country_id' => $request->country_id_applicant,
+            'address' => $request->address_applicant,
+        ];
+
+        if ($request->country_id_applicant == '8d1458c5-dde2-3ac3-901b-29d55074c4ec') {
+            $dataPatentApplicant['province_id'] = $request->province_id_applicant;
+            $dataPatentApplicant['district_id'] = $request->district_id_applicant;
+            $dataPatentApplicant['subdistrict_id'] = $request->subdistrict_id_applicant;
+        }else {
+            $dataPatentApplicant['province_id'] = null;
+            $dataPatentApplicant['district_id'] = null;
+            $dataPatentApplicant['subdistrict_id'] = null;
+        }
+
+        $patentDetail->PatentApplicants()->create($dataPatentApplicant);
+
+        return to_route('user.ajuan.index');
     }
 
     /**
@@ -85,7 +150,7 @@ class AjuanController extends Controller
 
     public function generateAdd()
     {
-        $detailHakcipta = PatentDetail::create([
+        $patentDetail = PatentDetail::create([
             'owner_id' => Auth::id(),
         ]);
 
@@ -93,7 +158,7 @@ class AjuanController extends Controller
 
         // foreach ($defaultHolder as $key => $value) {
         //     $dataCreate = [
-        //         'detail_hakcipta_id' => $detailHakcipta->id,
+        //         'detail_hakcipta_id' => $patentDetail->id,
         //         'name' => $value->name,
         //         'email' => $value->email,
         //         'no_telp' => $value->no_telp,
@@ -121,6 +186,6 @@ class AjuanController extends Controller
         //     HolderHakcipta::create($dataCreate);
         // }
 
-        return $detailHakcipta->id;
+        return $patentDetail->id;
     }
 }

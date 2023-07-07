@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class PatentDetail extends Model
 {
@@ -18,8 +20,9 @@ class PatentDetail extends Model
         'owner_id',
         'patent_type_id',
         'applicant_criterias_id',
-        'fractions',
+        'is_fractions',
         'fractions_number',
+        'fractions_date',
         'status',
         'is_submited',
     ];
@@ -38,6 +41,14 @@ class PatentDetail extends Model
 
     public function ApplicantCriteria(): BelongsTo {
         return $this->belongsTo(ApplicantCriteria::class, 'applicant_criterias_id');
+    }
+
+    public function PatentApplicant(): HasOne {
+        return $this->hasOne(PatentApplicant::class, 'detail_id');
+    }
+
+    public function PatentApplicants(): HasMany {
+        return $this->hasMany(PatentApplicant::class, 'detail_id');
     }
 
     protected function statusText(): Attribute
