@@ -30,6 +30,12 @@
                 <span>Dashboard</span>
             </a>
         </li>
+        <li class="sidebar-item {{ request()->routeIs('admin.parameter.korespondensi.*') ? 'active' : '' }}">
+            <a href="{{ route('admin.parameter.korespondensi.index') }}" class="sidebar-link">
+                <i class="bi bi-grid-fill"></i>
+                <span>Parameter Koresponden</span>
+            </a>
+        </li>
         {{-- <li class="sidebar-item {{ request()->routeIs('admin.ajuan.*') ? 'active' : '' }}">
             <a href="{{ route('admin.ajuan.index') }}" class="sidebar-link">
             <i class="bi bi-grid-fill"></i>

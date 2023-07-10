@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
 
             PatentTypeSeeder::class,
             ApplicantCriteriaSeeder::class,
+            ParameterPatentCorrespondenceSeeder::class,
         ]);
     }
 }

@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Models\ApplicantCriteria;
 use App\Http\Controllers\Controller;
+use App\Models\ParameterPatentCorrespondence;
+use App\Models\PatentCorrespondence;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
@@ -36,6 +38,12 @@ class AjuanController extends Controller
             'kewarganegaraans' => Country::all(),
             'provinsis' => Province::all(),
         ];
+
+        $patentDetail->load([
+            'PatentCorrespondent'
+        ]);
+
+        // return $data['patentDetail']->PatentCorrespondent;
         return view('user.ajuan.add', $data);
     }
 
@@ -70,7 +78,7 @@ class AjuanController extends Controller
 
         // storing PatentDetail data
         $dataPatentDetail = [
-            'patent_type_id' => $request->patent_type_id,
+            'patent_type_id' => $request->patent_type_id, 
             'applicant_criterias_id' => $request->applicant_criteria_id,
             'is_fractions' => $request->is_fractions,
         ];
@@ -153,6 +161,39 @@ class AjuanController extends Controller
         $patentDetail = PatentDetail::create([
             'owner_id' => Auth::id(),
         ]);
+
+        $defaultCorrespondent = ParameterPatentCorrespondence::first();
+
+        $dataCreateCorrespondent = [
+            'detail_id' => $patentDetail->id,
+            'name' => $defaultCorrespondent->name,
+            'address' => $defaultCorrespondent->address,
+            'telephone' => $defaultCorrespondent->telephone,
+            'country_id' => $defaultCorrespondent->country_id,
+            // 'province_id' => $defaultCorrespondent,
+            // 'district_id' => $defaultCorrespondent,
+            // 'subdistrict_id' => $defaultCorrespondent,
+            'email' => $defaultCorrespondent->email,
+            // 'legal_entity_name' => $defaultCorrespondent,
+        ];
+
+        if ($defaultCorrespondent->country_id == '8d1458c5-dde2-3ac3-901b-29d55074c4ec') {
+            $dataCreateCorrespondent['province_id'] = $defaultCorrespondent->province_id;
+            $dataCreateCorrespondent['district_id'] = $defaultCorrespondent->district_id;
+            $dataCreateCorrespondent['subdistrict_id'] = $defaultCorrespondent->subdistrict_id;
+        }else {
+            $dataCreateCorrespondent['province_id'] = null;
+            $dataCreateCorrespondent['district_id'] = null;
+            $dataCreateCorrespondent['subdistrict_id'] = null;
+        }
+
+        if ($defaultCorrespondent->legal_entity_name) {
+            $dataCreateCorrespondent['legal_entity_name'] = $defaultCorrespondent->legal_entity_name;
+        }else {
+            $dataCreateCorrespondent['legal_entity_name'] = null;
+        }
+
+        PatentCorrespondence::create($dataCreateCorrespondent);
 
         // $defaultHolder = ParameterHolder::all();
 

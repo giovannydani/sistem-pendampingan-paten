@@ -4,7 +4,6 @@ use App\Models\Country;
 use App\Models\District;
 use App\Models\Province;
 use App\Models\Subdistrict;
-use App\Models\PatentDetail;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -16,10 +15,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('patent_correspondences', function (Blueprint $table) {
+        Schema::create('parameter_patent_correspondences', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignIdFor(PatentDetail::class, 'detail_id');
-            $table->foreign('detail_id')->references('id')->on('patent_details')->onDelete('cascade')->onUpdate('cascade');
             $table->string('name');
             $table->text('address');
             $table->foreignIdFor(Country::class, 'country_id');
@@ -42,6 +39,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('patent_correspondences');
+        Schema::dropIfExists('parameter_patent_correspondences');
     }
 };

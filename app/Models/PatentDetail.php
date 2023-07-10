@@ -51,6 +51,10 @@ class PatentDetail extends Model
         return $this->hasMany(PatentApplicant::class, 'detail_id');
     }
 
+    public function PatentCorrespondent(): HasOne {
+        return $this->hasOne(PatentCorrespondence::class, 'detail_id');
+    }
+
     protected function statusText(): Attribute
     {
         return Attribute::make(

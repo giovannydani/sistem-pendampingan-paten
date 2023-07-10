@@ -3,6 +3,7 @@
 use App\Enums\UserRole;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\Parameter\PatentCorrespondenceController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
@@ -97,6 +98,16 @@ Route::group(['middleware' => ['auth']], function (){
         Route::group(['as' => 'admin.', 'prefix' => 'admin'], function (){
             Route::group(['middleware' => [UserRole::getMiddlewareSuperAdminAndAdminRole()]], function (){
                 Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+                
+                Route::group(['prefix' => 'parameter', 'as' => 'parameter.'], function (){
+                    Route::group(['prefix' => 'korespondensi', 'as' => 'korespondensi.', 'controller' => PatentCorrespondenceController::class], function (){
+                        Route::get('/', 'create')->name('index');
+                        Route::post('/', 'store')->name('store');
+                    });
+                });
+            });
+            Route::group(['middleware' => [UserRole::getMiddlewareSuperAdminRole()]], function (){
+
             });
         });
     });
