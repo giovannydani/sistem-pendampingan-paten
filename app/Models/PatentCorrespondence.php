@@ -33,14 +33,9 @@ class PatentCorrespondence extends Model
             $province = Province::where('id', $this->province_id)->first();
             $country = Country::where('id', $this->country_id)->first();
             $address = $this->address .', '.$subdistrict->name.', '.$district->name.', '.$province->name.', '.$country->name;
+        }else {
+            $address = $this->address;
         }
-
-        // return Attribute::make(
-        //     get: fn($val) => 'awkwwk',
-        // );
-        // return new Attribute(
-        //     get: fn () => 'yes',
-        // );
 
         return Attribute::make(
             get: fn () => $address,

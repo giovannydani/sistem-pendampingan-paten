@@ -12,6 +12,7 @@ use App\Models\ApplicantCriteria;
 use App\Http\Controllers\Controller;
 use App\Models\ParameterPatentCorrespondence;
 use App\Models\PatentCorrespondence;
+use App\Models\PatentInventor;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
@@ -70,10 +71,30 @@ class AjuanController extends Controller
             "fractions_number" => [Rule::requiredIf($request->is_fractions == 'yes')],
             "fractions_date" => [Rule::requiredIf($request->is_fractions == 'yes')],
         ];
+
+        $attributes = [
+            "patent_type_id" => 'Jenis Paten',
+            "applicant_criteria_id" => 'Kriteria Pemohon',
+
+            "name_applicant" => 'Nama',
+            "email_applicant" => 'Email',
+            "no_telp_applicant" => 'No Telepon',
+            "nationality_id_applicant" => 'Kewarganegaraan',
+            "country_id_applicant" => 'Negara Tempat Tinggal',
+            "address_applicant" => 'Alamat Tempat Tinggal',
+            "province_id_applicant" => 'Provinsi',
+            "district_id_applicant" => 'Kabupaten / Kota',
+            "subdistrict_id_applicant" => 'Kecamatan',
+
+            // "is_fractions" => '',
+            "fractions_number" => 'Nomor Permohonan Induk',
+            "fractions_date" => 'Tanggal Penerimaan Permohonan Induk',
+        ];
         
         Validator::make(
             data: $request->all(),
             rules: $rules,
+            attributes: $attributes,
         )->validate();
 
         // storing PatentDetail data
@@ -148,6 +169,12 @@ class AjuanController extends Controller
     public function destroy(PatentDetail $patentDetail)
     {
         //
+    }
+
+    public function destroyInventor(PatentDetail $patentDetail, PatentInventor $patentInventor)
+    {
+        $patentInventor->delete();
+        return 'success';
     }
 
     public function data() {

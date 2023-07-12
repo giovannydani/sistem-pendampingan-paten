@@ -92,6 +92,7 @@ Route::group(['middleware' => ['auth']], function (){
                 Route::post('/generate/', 'generateAdd')->name('generateAdd');
                 Route::put('/{patentDetail}', 'store')->name('store');
                 Route::get('/add/{patentDetail}', 'create')->name('create');
+                Route::delete('/add/{patentDetail}/inventor/{patentInventor}', 'destroyInventor')->name('destroyInventor');
             });
         });
 
