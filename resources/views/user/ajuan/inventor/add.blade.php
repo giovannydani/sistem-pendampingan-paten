@@ -14,7 +14,7 @@
             $('#addInventor').modal('hide');
         })
 
-        function countryFuncAction() {
+        function countryFuncActionInventor() {
             if ($('#country_id').val() != '8d1458c5-dde2-3ac3-901b-29d55074c4ec') {
                 $('#province_id_label_inventor').hide()
                 $('#province_id_input_inventor').hide()
@@ -34,14 +34,14 @@
 
         window.addEventListener('openModalEditInventor', event => {
             $('#editInventor').modal('show');
-            countryFuncAction();
+            countryFuncActionInventorEdit();
         })
 
         window.addEventListener('closeModalEditInventor', event => {
             $('#editInventor').modal('hide');
         })
 
-        function countryFuncAction() {
+        function countryFuncActionInventorEdit() {
             if ($('#country_id_edit').val() != '8d1458c5-dde2-3ac3-901b-29d55074c4ec') {
                 $('#province_id_label_inventor_edit').hide()
                 $('#province_id_input_inventor_edit').hide()

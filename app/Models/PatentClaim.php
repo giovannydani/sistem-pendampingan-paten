@@ -6,19 +6,13 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PatentAttachment extends Model
+class PatentClaim extends Model
 {
     use HasFactory, HasUuids;
 
     protected $fillable = [
         'detail_id',
-
-        'description_id',
-        'description_en',
-        'sequence',
         'claim',
-        'abstract',
-        'technical_pict',
-        'pict_to_show_on_announcement',
+        'iteration',
     ];
 }

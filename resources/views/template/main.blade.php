@@ -75,7 +75,7 @@
 
     @livewireScripts
 
-    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
     <script src="{{ asset('assets/js/bootstrap.js') }}"></script>
     <script src=" {{ asset('assets/js/app.js') }} "></script>
 
@@ -87,7 +87,7 @@
     <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
     {{-- <script src="{{ asset('assets/js/pages/datatables.js') }}"></script> --}}
     <script src="https://cdn.datatables.net/fixedcolumns/4.1.0/js/dataTables.fixedColumns.min.js"></script>
-    {{-- <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
+    {{-- <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}} 
 
     <script>
       function logoutModalShow() {
@@ -99,6 +99,9 @@
     <script src="{{ asset('assets/js/pages/sweetalert2.js') }}"></script>
 
     @include('sweetalert::alert', ['cdn' => "//cdn.jsdelivr.net/npm/sweetalert2@11"])
+
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 
     @yield('js')
 

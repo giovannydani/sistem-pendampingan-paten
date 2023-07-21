@@ -123,7 +123,7 @@
 @push('scripts')
 <script>
     $(document).ready(function () {
-        console.log('app');
+        // console.log('app');
     });
 
     $(document).ready(function () {
@@ -156,6 +156,8 @@
             provinceFuncAction();
             districtFuncAction("old");
         }
+
+        console.log('asdsadasdsa');
     }
     
     var selected_district = "{{ old('district_id_applicant') }}";

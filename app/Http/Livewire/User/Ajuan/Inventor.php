@@ -224,9 +224,9 @@ class Inventor extends Component
             'nationality_id_edit' => ['required'],
             'address_edit' => ['required'],
             'country_id_edit' => ['required'],
-            'province_id_edit' => [Rule::requiredIf($this->country_id == '8d1458c5-dde2-3ac3-901b-29d55074c4ec')],
-            'district_id_edit' => [Rule::requiredIf($this->country_id == '8d1458c5-dde2-3ac3-901b-29d55074c4ec')],
-            'subdistrict_id_edit' => [Rule::requiredIf($this->country_id == '8d1458c5-dde2-3ac3-901b-29d55074c4ec')],
+            'province_id_edit' => [Rule::requiredIf($this->country_id_edit == '8d1458c5-dde2-3ac3-901b-29d55074c4ec')],
+            'district_id_edit' => [Rule::requiredIf($this->country_id_edit == '8d1458c5-dde2-3ac3-901b-29d55074c4ec')],
+            'subdistrict_id_edit' => [Rule::requiredIf($this->country_id_edit == '8d1458c5-dde2-3ac3-901b-29d55074c4ec')],
         ]);
 
         $dataUpdate = [

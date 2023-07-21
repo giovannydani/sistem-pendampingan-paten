@@ -61,6 +61,7 @@
             @include('user.ajuan.pecahan.add')
             @include('user.ajuan.korespondensi.add')
             @include('user.ajuan.inventor.add')
+            @include('user.ajuan.isi_dokumen.add')
     
             <div class="row">
                 <div class="col-md-6">

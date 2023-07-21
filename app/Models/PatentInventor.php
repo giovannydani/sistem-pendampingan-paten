@@ -58,6 +58,7 @@ class PatentInventor extends Model
             $province = Province::where('id', $this->province_id)->first();
             $country = Country::where('id', $this->country_id)->first();
             $address = $this->address .', '.$subdistrict->name.', '.$district->name.', '.$province->name.', '.$country->name;
+            // $address = $this->address;
         }else {
             $address = $this->address;
         }

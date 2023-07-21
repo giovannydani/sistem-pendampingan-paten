@@ -79,7 +79,7 @@
                         <label class="mt-2">Negara Tinggal*</label >
                     </div>
                     <div wire:ignore.self class="col-md-12 form-group">
-                        <select class="form-select" wire:model="country_id" id="country_id" onchange="countryFuncAction()">
+                        <select class="form-select" wire:model="country_id" id="country_id" onchange="countryFuncActionInventor()">
                             <option value="">- Pilih Negara -</option>
                             @foreach ($countries as $kewarganegaraan)
                             <option value="{{$kewarganegaraan['id']}}" @selected(old('country_id') == $kewarganegaraan['id'])>{{$kewarganegaraan['name']}}</option>
@@ -209,7 +209,7 @@
                         <label class="mt-2">Negara Tinggal*</label >
                     </div>
                     <div wire:ignore.self class="col-md-12 form-group">
-                        <select class="form-select" wire:model="country_id_edit" id="country_id_edit" onchange="countryFuncAction()">
+                        <select class="form-select" wire:model="country_id_edit" id="country_id_edit" onchange="countryFuncActionInventorEdit()">
                             <option value="">- Pilih Negara -</option>
                             @foreach ($countries as $kewarganegaraan)
                             <option value="{{$kewarganegaraan['id']}}" @selected(old('country_id') == $kewarganegaraan['id'])>{{$kewarganegaraan['name']}}</option>

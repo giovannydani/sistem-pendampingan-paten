@@ -13,6 +13,8 @@ use App\Http\Controllers\Controller;
 use App\Models\ParameterPatentCorrespondence;
 use App\Models\PatentCorrespondence;
 use App\Models\PatentInventor;
+use App\Rules\MaxWord;
+use App\Rules\required_striptags;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
@@ -53,6 +55,12 @@ class AjuanController extends Controller
      */
     public function store(Request $request, PatentDetail $patentDetail)
     {
+        // return count($request->claim_add);
+        // foreach ($request->claim_add as $claim) {
+        //     echo $claim;
+        // }
+        // die;
+
         $rules = [
             "patent_type_id" => ['required', 'exists:patent_types,id'],
             "applicant_criteria_id" => ['required', 'exists:applicant_criterias,id'],
@@ -70,6 +78,11 @@ class AjuanController extends Controller
             "is_fractions" => ['required'],
             "fractions_number" => [Rule::requiredIf($request->is_fractions == 'yes')],
             "fractions_date" => [Rule::requiredIf($request->is_fractions == 'yes')],
+
+            "invention_title_id" => ['required'],
+            "claim_add.*" => ['required', new required_striptags],
+            "invention_abstract_id" => ['required', new MaxWord(200)],
+            "invention_abstract_en" => [new MaxWord(200)],
         ];
 
         $attributes = [
@@ -89,13 +102,23 @@ class AjuanController extends Controller
             // "is_fractions" => '',
             "fractions_number" => 'Nomor Permohonan Induk',
             "fractions_date" => 'Tanggal Penerimaan Permohonan Induk',
+
+            "invention_title_id" => 'Judul Invensi (Indonesia)',
+            "invention_title_en" => 'Judul Invensi (Inggris)',
+            "invention_abstract_id" => 'Abstrak (Indonesia)',
+            "invention_abstract_en" => 'Abstrak (Inggris)',
+            "claim_add.*" => 'Klaim',
         ];
         
-        Validator::make(
+        $validatorr = Validator::make(
             data: $request->all(),
             rules: $rules,
             attributes: $attributes,
-        )->validate();
+        )
+        // );
+        ->validate();
+
+        // return $validatorr->errors();
 
         // storing PatentDetail data
         $dataPatentDetail = [
@@ -133,8 +156,40 @@ class AjuanController extends Controller
             $dataPatentApplicant['district_id'] = null;
             $dataPatentApplicant['subdistrict_id'] = null;
         }
-
+        
         $patentDetail->PatentApplicants()->create($dataPatentApplicant);
+        
+        $dataPatentDocument = [
+            // 'detail_id' => ,
+            'title_id' => $request->invention_title_id,
+            // 'title_en' => $request->invention_title_en,
+            'abstract_id' => 'abstrak',
+            'abstract_en' => 'abstract',
+        ];
+        
+        if ($request->invention_title_en) {
+            $dataPatentDocument['title_en'] = $request->invention_title_en;
+        }else {
+            $dataPatentDocument['title_en'] = null;
+        }
+        
+        if ($request->invention_title_en) {
+            $dataPatentDocument['title_en'] = $request->invention_title_en;
+        }else {
+            $dataPatentDocument['title_en'] = null;
+        }
+
+        $patentDetail->PatentDocument()->create($dataPatentDocument);
+        
+        foreach ($request->claim_add as $index => $claim_add) {
+            $dataPatentClaim = [
+                // 'detail_id',
+                'iteration' => $index+1,
+                'claim' => $claim_add,
+            ];
+
+            $patentDetail->PatentClaim()->create($dataPatentClaim);
+        }
 
         return to_route('user.ajuan.index');
     }
