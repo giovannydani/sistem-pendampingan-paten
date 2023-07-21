@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('abstract')->nullable();
             $table->string('technical_pict')->nullable();
             $table->string('pict_to_show_on_announcement')->nullable();
+            $table->json('attachment');
             $table->timestamps();
         });
     }

@@ -163,8 +163,8 @@ class AjuanController extends Controller
             // 'detail_id' => ,
             'title_id' => $request->invention_title_id,
             // 'title_en' => $request->invention_title_en,
-            'abstract_id' => 'abstrak',
-            'abstract_en' => 'abstract',
+            'abstract_id' => $request->invention_abstract_id,
+            // 'abstract_en' => 'abstract',
         ];
         
         if ($request->invention_title_en) {
@@ -173,17 +173,16 @@ class AjuanController extends Controller
             $dataPatentDocument['title_en'] = null;
         }
         
-        if ($request->invention_title_en) {
-            $dataPatentDocument['title_en'] = $request->invention_title_en;
+        if ($request->invention_abstract_en) {
+            $dataPatentDocument['abstract_en'] = $request->invention_abstract_en;
         }else {
-            $dataPatentDocument['title_en'] = null;
+            $dataPatentDocument['abstract_en'] = null;
         }
 
         $patentDetail->PatentDocument()->create($dataPatentDocument);
         
         foreach ($request->claim_add as $index => $claim_add) {
             $dataPatentClaim = [
-                // 'detail_id',
                 'iteration' => $index+1,
                 'claim' => $claim_add,
             ];
