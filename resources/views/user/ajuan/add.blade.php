@@ -62,6 +62,7 @@
             @include('user.ajuan.korespondensi.add')
             @include('user.ajuan.inventor.add')
             @include('user.ajuan.isi_dokumen.add')
+            @include('user.ajuan.attachment.add')
     
             <div class="row">
                 <div class="col-md-6">

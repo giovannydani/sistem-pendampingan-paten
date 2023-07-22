@@ -27,6 +27,13 @@ class PatentDetail extends Model
         'is_submited',
     ];
 
+    protected $appends = [
+        'status_text',
+        'is_admin_process',
+        'is_revision',
+        'is_finish',
+    ];
+
     protected $casts = [
         'status' => AjuanStatus::class,
     ];
@@ -63,6 +70,11 @@ class PatentDetail extends Model
     public function PatentClaim(): HasOne 
     {
         return $this->hasOne(PatentClaim::class, 'detail_id');
+    }
+
+    public function PatentAttachment(): HasOne 
+    {
+        return $this->hasOne(PatentAttachment::class, 'detail_id');
     }
 
     protected function statusText(): Attribute

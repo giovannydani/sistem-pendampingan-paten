@@ -62,7 +62,7 @@
                             return meta.row + meta.settings._iDisplayStart + 1;
                         } 
                     },
-                    { data: 'title' },
+                    { data: 'patent_document.title_id' },
                     { data: 'status_text' },
                     {
                         orderable: false,

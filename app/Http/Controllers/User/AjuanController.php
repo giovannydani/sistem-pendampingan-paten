@@ -2,22 +2,25 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Enums\AjuanStatus;
+use App\Rules\MaxWord;
 use App\Models\Country;
 use App\Models\Province;
 use App\Models\PatentType;
 use App\Models\PatentDetail;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
-use App\Models\ApplicantCriteria;
-use App\Http\Controllers\Controller;
-use App\Models\ParameterPatentCorrespondence;
-use App\Models\PatentCorrespondence;
 use App\Models\PatentInventor;
-use App\Rules\MaxWord;
+use Illuminate\Validation\Rule;
+use App\Models\PatentAttachment;
+use App\Models\ApplicantCriteria;
 use App\Rules\required_striptags;
+use App\Http\Controllers\Controller;
+use App\Models\PatentCorrespondence;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rules\File;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
+use App\Models\ParameterPatentCorrespondence;
 
 class AjuanController extends Controller
 {
@@ -55,12 +58,6 @@ class AjuanController extends Controller
      */
     public function store(Request $request, PatentDetail $patentDetail)
     {
-        // return count($request->claim_add);
-        // foreach ($request->claim_add as $claim) {
-        //     echo $claim;
-        // }
-        // die;
-
         $rules = [
             "patent_type_id" => ['required', 'exists:patent_types,id'],
             "applicant_criteria_id" => ['required', 'exists:applicant_criterias,id'],
@@ -83,6 +80,14 @@ class AjuanController extends Controller
             "claim_add.*" => ['required', new required_striptags],
             "invention_abstract_id" => ['required', new MaxWord(200)],
             "invention_abstract_en" => [new MaxWord(200)],
+
+            "description_attachment_id" => ['required', File::types(['pdf'])->max(5000)],
+            "description_attachment_en" => ['required', File::types(['pdf'])->max(5000)],
+            "sequence_attachment" => ['required', File::types(['pdf'])->max(5000)],
+            "claim_attachment" => ['required', File::types(['pdf'])->max(5000)],
+            "abstract_attachment" => ['required', File::types(['pdf'])->max(5000)],
+            "technical_pict_attachment" => ['required', File::types(['pdf'])->max(5000)],
+            "pict_to_show_on_announcement_attachment" => ['required', File::types(['pdf'])->max(5000)],
         ];
 
         $attributes = [
@@ -108,6 +113,14 @@ class AjuanController extends Controller
             "invention_abstract_id" => 'Abstrak (Indonesia)',
             "invention_abstract_en" => 'Abstrak (Inggris)',
             "claim_add.*" => 'Klaim',
+
+            "description_attachment_id" => "Deskripsi (Indonesia)",
+            "description_attachment_en" => "Deskripsi (Inggris)",
+            "sequence_attachment" => "Sequence",
+            "claim_attachment" => "Klaim",
+            "abstract_attachment" => "Abstrak",
+            "technical_pict_attachment" => "Gambar teknik",
+            "pict_to_show_on_announcement_attachment" => "Gambar yang akan digunakan di pengumuman",
         ];
         
         $validatorr = Validator::make(
@@ -125,6 +138,8 @@ class AjuanController extends Controller
             'patent_type_id' => $request->patent_type_id, 
             'applicant_criterias_id' => $request->applicant_criteria_id,
             'is_fractions' => $request->is_fractions,
+            'status' => AjuanStatus::AdminProcess,
+            'is_submited' => 1,
         ];
 
         if ($request->is_fractions == 'yes') {
@@ -190,6 +205,33 @@ class AjuanController extends Controller
             $patentDetail->PatentClaim()->create($dataPatentClaim);
         }
 
+        // attachment
+        $dataPatentAttachment = [];
+        
+        if($request->description_attachment_id){
+            $dataPatentAttachment['attachment']['description_id'] = $request->file('description_attachment_id')->store('attachment_patent_'.$patentDetail->id);
+        }
+        if($request->description_attachment_en){
+            $dataPatentAttachment['attachment']['description_en'] = $request->file('description_attachment_en')->store('attachment_patent_'.$patentDetail->id);
+        }
+        if($request->sequence_attachment){
+            $dataPatentAttachment['attachment']['sequence'] = $request->file('sequence_attachment')->store('attachment_patent_'.$patentDetail->id);
+        }
+        if($request->claim_attachment){
+            $dataPatentAttachment['attachment']['claim'] = $request->file('claim_attachment')->store('attachment_patent_'.$patentDetail->id);
+        }
+        if($request->abstract_attachment){
+            $dataPatentAttachment['attachment']['abstract'] = $request->file('abstract_attachment')->store('attachment_patent_'.$patentDetail->id);
+        }
+        if($request->technical_pict_attachment){
+            $dataPatentAttachment['attachment']['technical_pict'] = $request->file('technical_pict_attachment')->store('attachment_patent_'.$patentDetail->id);
+        }
+        if($request->pict_to_show_on_announcement_attachment){
+            $dataPatentAttachment['attachment']['pict_to_show_on_announcement'] = $request->file('pict_to_show_on_announcement_attachment')->store('attachment_patent_'.$patentDetail->id);
+        }
+
+        $patentDetail->PatentAttachment()->create($dataPatentAttachment);
+
         return to_route('user.ajuan.index');
     }
 
@@ -234,6 +276,8 @@ class AjuanController extends Controller
     public function data() {
         $data = Auth::user()->applications;
 
+        $data->load('PatentDocument');
+
         return DataTables::of($data)->make(true);
     }
 
@@ -251,11 +295,7 @@ class AjuanController extends Controller
             'address' => $defaultCorrespondent->address,
             'telephone' => $defaultCorrespondent->telephone,
             'country_id' => $defaultCorrespondent->country_id,
-            // 'province_id' => $defaultCorrespondent,
-            // 'district_id' => $defaultCorrespondent,
-            // 'subdistrict_id' => $defaultCorrespondent,
             'email' => $defaultCorrespondent->email,
-            // 'legal_entity_name' => $defaultCorrespondent,
         ];
 
         if ($defaultCorrespondent->country_id == '8d1458c5-dde2-3ac3-901b-29d55074c4ec') {
@@ -275,38 +315,6 @@ class AjuanController extends Controller
         }
 
         PatentCorrespondence::create($dataCreateCorrespondent);
-
-        // $defaultHolder = ParameterHolder::all();
-
-        // foreach ($defaultHolder as $key => $value) {
-        //     $dataCreate = [
-        //         'detail_hakcipta_id' => $patentDetail->id,
-        //         'name' => $value->name,
-        //         'email' => $value->email,
-        //         'no_telp' => $value->no_telp,
-        //         'nationality_id' => $value->nationality_id,
-        //         'address' => $value->address,
-        //         'country_id' => $value->country_id,
-        //         'postal_code' => $value->postal_code,
-        //         'is_manageable' => 0,
-        //     ];
-    
-        //     if ($value->is_company) {
-        //         $dataCreate['is_company'] = $value->is_company;
-        //     }else {
-        //         $dataCreate['is_company'] = 0;
-        //     }
-    
-        //     if ($value->country_id == '8d1458c5-dde2-3ac3-901b-29d55074c4ec') {
-        //         $dataCreate['province_id'] = $value->province_id;
-        //         $dataCreate['district_id'] = $value->district_id;
-        //         $dataCreate['subdistrict_id'] = $value->subdistrict_id;
-        //     }else {
-        //         $dataCreate['district'] = $value->district;
-        //     }
-    
-        //     HolderHakcipta::create($dataCreate);
-        // }
 
         return $patentDetail->id;
     }
