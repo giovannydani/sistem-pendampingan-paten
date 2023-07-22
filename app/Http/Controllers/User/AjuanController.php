@@ -21,6 +21,7 @@ use Illuminate\Validation\Rules\File;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 use App\Models\ParameterPatentCorrespondence;
+use App\Models\PatentApplicant;
 
 class AjuanController extends Controller
 {
@@ -202,7 +203,7 @@ class AjuanController extends Controller
                 'claim' => $claim_add,
             ];
 
-            $patentDetail->PatentClaim()->create($dataPatentClaim);
+            $patentDetail->PatentClaims()->create($dataPatentClaim);
         }
 
         // attachment
@@ -240,7 +241,38 @@ class AjuanController extends Controller
      */
     public function show(PatentDetail $patentDetail)
     {
-        //
+        $patentDetail->load([
+            'PatentType',
+            'ApplicantCriteria',
+            'PatentApplicant' => function ($query){
+                $query->with([
+                    'Nationality',
+                    'Country',
+                    'Province',
+                    'District',
+                    'Subdistrict',
+                ]);
+            },
+            'PatentInventor' => function ($query){
+                $query->with([
+                    'Nationality',
+                    'Country',
+                    'Province',
+                    'District',
+                    'Subdistrict',
+                ]);
+            },
+            'PatentDocument',
+            'PatentClaims',
+            'PatentAttachment',
+        ]);
+
+        $data = [
+            'patentDetail' => $patentDetail,
+        ];
+
+        // return $patentDetail;
+        return view('user.ajuan.detail', $data);
     }
 
     /**

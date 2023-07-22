@@ -31,21 +31,21 @@ class PatentApplicant extends Model
 
     public function Country(): BelongsTo
     {
-        return $this->belongTo(Country::class, 'country_id');
+        return $this->belongsTo(Country::class, 'country_id');
     }
 
     public function Province(): BelongsTo
     {
-        return $this->belongTo(Province::class, 'province_id');
+        return $this->belongsTo(Province::class, 'province_id');
     }
 
     public function District(): BelongsTo
     {
-        return $this->belongTo(District::class, 'district_id');
+        return $this->belongsTo(District::class, 'district_id');
     }
 
     public function Subdistrict(): BelongsTo
     {
-        return $this->belongTo(Subdistrict::class, 'subdistrict_id');
+        return $this->belongsTo(Subdistrict::class, 'subdistrict_id');
     }
 }

@@ -58,6 +58,10 @@ class PatentDetail extends Model
         return $this->hasMany(PatentApplicant::class, 'detail_id');
     }
 
+    public function PatentInventor(): HasMany {
+        return $this->hasMany(PatentInventor::class, 'detail_id');
+    }
+
     public function PatentCorrespondent(): HasOne {
         return $this->hasOne(PatentCorrespondence::class, 'detail_id');
     }
@@ -67,9 +71,9 @@ class PatentDetail extends Model
         return $this->hasOne(PatentDocument::class, 'detail_id');
     }
 
-    public function PatentClaim(): HasOne 
+    public function PatentClaims(): HasMany 
     {
-        return $this->hasOne(PatentClaim::class, 'detail_id');
+        return $this->hasMany(PatentClaim::class, 'detail_id');
     }
 
     public function PatentAttachment(): HasOne 
