@@ -75,10 +75,20 @@ class PatentDetail extends Model
     {
         return $this->hasMany(PatentClaim::class, 'detail_id');
     }
-
+    
     public function PatentAttachment(): HasOne 
     {
         return $this->hasOne(PatentAttachment::class, 'detail_id');
+    }
+
+    public function PatentComments(): HasMany
+    {
+        return $this->hasMany(PatentComment::class, 'detail_id');
+    }
+
+    public function PatentNewComment(): HasOne
+    {
+        return $this->hasOne(PatentComment::class, 'detail_id')->orderBy('created_at', 'desc');
     }
 
     protected function statusText(): Attribute
