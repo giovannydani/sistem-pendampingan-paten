@@ -2,6 +2,7 @@
 
 use App\Enums\UserRole;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\Admin\AjuanController as AdminAjuanController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\Parameter\PatentCorrespondenceController;
 use Illuminate\Support\Facades\Auth;
@@ -106,6 +107,12 @@ Route::group(['middleware' => ['auth']], function (){
                         Route::get('/', 'create')->name('index');
                         Route::post('/', 'store')->name('store');
                     });
+                });
+
+                Route::group(['prefix' => 'ajuan', 'as' => 'ajuan.', 'controller' => AdminAjuanController::class], function (){
+                    Route::get('/', 'index')->name('index');
+                    Route::post('/data', 'data')->name('data');
+                    Route::get('/detail/{patentDetail}', 'show')->name('show');
                 });
             });
             Route::group(['middleware' => [UserRole::getMiddlewareSuperAdminRole()]], function (){

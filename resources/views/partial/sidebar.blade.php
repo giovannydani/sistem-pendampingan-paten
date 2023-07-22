@@ -36,6 +36,12 @@
                 <span>Parameter Koresponden</span>
             </a>
         </li>
+        <li class="sidebar-item {{ request()->routeIs('admin.ajuan.*') ? 'active' : '' }}">
+            <a href="{{ route('admin.ajuan.index') }}" class="sidebar-link">
+            <i class="bi bi-grid-fill"></i>
+            <span>Ajuan</span>
+            </a>
+        </li>
         {{-- <li class="sidebar-item {{ request()->routeIs('admin.ajuan.*') ? 'active' : '' }}">
             <a href="{{ route('admin.ajuan.index') }}" class="sidebar-link">
             <i class="bi bi-grid-fill"></i>
