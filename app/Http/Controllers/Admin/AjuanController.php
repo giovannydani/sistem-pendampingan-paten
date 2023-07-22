@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\AjuanStatus;
 use App\Models\PatentDetail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Validator;
 
 class AjuanController extends Controller
 {
@@ -20,17 +22,64 @@ class AjuanController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(PatentDetail $patentDetail)
     {
-        //
+        $patentDetail->load([
+            'PatentType',
+            'ApplicantCriteria',
+            'PatentApplicant' => function ($query){
+                $query->with([
+                    'Nationality',
+                    'Country',
+                    'Province',
+                    'District',
+                    'Subdistrict',
+                ]);
+            },
+            'PatentInventor' => function ($query){
+                $query->with([
+                    'Nationality',
+                    'Country',
+                    'Province',
+                    'District',
+                    'Subdistrict',
+                ]);
+            },
+            'PatentDocument',
+            'PatentClaims',
+            'PatentAttachment',
+            'PatentNewComment',
+        ]);
+
+        $data = [
+            'patentDetail' => $patentDetail,
+        ];
+
+        // return $patentDetail;
+        return view('admin.ajuan.check', $data);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, PatentDetail $patentDetail)
     {
-        //
+        Validator::make(
+            data: $request->all(),
+            rules: [
+                'comment' => ['required']
+            ],
+        )->validate();
+
+        $patentDetail->update([
+            'status' => AjuanStatus::Revision,
+        ]);
+
+        $patentDetail->PatentComments()->create([
+            'comment' => $request->comment,
+        ]);
+
+        return to_route('admin.ajuan.index');
     }
 
     /**
@@ -107,5 +156,13 @@ class AjuanController extends Controller
         ->get();
 
         return DataTables::of($data)->make(true);
+    }
+
+    public function finishAjuan(PatentDetail $patentDetail) {
+        $patentDetail->update([
+            'status' => AjuanStatus::Finish,
+        ]);
+
+        return "success";
     }
 }

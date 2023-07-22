@@ -9,4 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 class PatentComment extends Model
 {
     use HasFactory, HasUuids;
+
+    protected $fillable = [
+        'detail_id',
+        'comment',
+    ];
 }

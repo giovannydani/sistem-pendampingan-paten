@@ -112,6 +112,9 @@ Route::group(['middleware' => ['auth']], function (){
                 Route::group(['prefix' => 'ajuan', 'as' => 'ajuan.', 'controller' => AdminAjuanController::class], function (){
                     Route::get('/', 'index')->name('index');
                     Route::post('/data', 'data')->name('data');
+                    Route::post('/{patentDetail}', 'store')->name('store');
+                    Route::put('/{patentDetail}', 'finishAjuan')->name('finishAjuan');
+                    Route::get('/check/{patentDetail}', 'create')->name('create');
                     Route::get('/detail/{patentDetail}', 'show')->name('show');
                 });
             });
