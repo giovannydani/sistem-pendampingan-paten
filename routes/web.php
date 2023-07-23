@@ -94,6 +94,9 @@ Route::group(['middleware' => ['auth']], function (){
                 Route::put('/{patentDetail}', 'store')->name('store');
                 Route::get('/add/{patentDetail}', 'create')->name('create');
                 Route::get('/detail/{patentDetail}', 'show')->name('show');
+                Route::get('/log/{patentDetail}', 'log')->name('log');
+                Route::get('/edit/{patentDetail}', 'edit')->name('edit');
+                Route::put('/update/{patentDetail}', 'update')->name('update');
                 Route::delete('/add/{patentDetail}/inventor/{patentInventor}', 'destroyInventor')->name('destroyInventor');
             });
         });

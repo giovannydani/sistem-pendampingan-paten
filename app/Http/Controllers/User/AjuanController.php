@@ -39,9 +39,9 @@ class AjuanController extends Controller
     public function create(PatentDetail $patentDetail)
     {
         $data = [
+            'patentDetail' => $patentDetail,
             'patent_types' => PatentType::all(),
             'applicant_criterias' => ApplicantCriteria::all(),
-            'patentDetail' => $patentDetail,
             'kewarganegaraans' => Country::all(),
             'provinsis' => Province::all(),
         ];
@@ -281,7 +281,22 @@ class AjuanController extends Controller
      */
     public function edit(PatentDetail $patentDetail)
     {
-        //
+        $patentDetail->load([
+            'PatentApplicant',
+            'PatentDocument',
+            'PatentClaims',
+            'PatentAttachment',
+        ]);
+
+        $data = [
+            'patentDetail' => $patentDetail,
+            'patent_types' => PatentType::all(),
+            'applicant_criterias' => ApplicantCriteria::all(),
+            'kewarganegaraans' => Country::all(),
+            'provinsis' => Province::all(),
+        ];
+        // return $data;
+        return view('user.ajuan.edit', $data);
     }
 
     /**
@@ -350,5 +365,13 @@ class AjuanController extends Controller
         PatentCorrespondence::create($dataCreateCorrespondent);
 
         return $patentDetail->id;
+    }
+
+    function log(PatentDetail $patentDetail) {
+        $patentDetail->load([
+            'PatentComments',
+        ]);
+
+        return view('user.ajuan.log', ['patentDetail' => $patentDetail]);
     }
 }

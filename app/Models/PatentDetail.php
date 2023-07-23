@@ -32,6 +32,7 @@ class PatentDetail extends Model
         'is_admin_process',
         'is_revision',
         'is_finish',
+        'bool_fraction',
     ];
 
     protected $casts = [
@@ -95,6 +96,17 @@ class PatentDetail extends Model
     {
         return Attribute::make(
             get: fn () => $this->status->text(),
+        );
+    }
+
+    protected function boolFraction(): Attribute
+    {
+        $text = "no";
+        if ($this->is_fractions) {
+            $text = "yes";
+        }
+        return Attribute::make(
+            get: fn () => $text,
         );
     }
 
