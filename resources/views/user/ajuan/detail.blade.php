@@ -60,7 +60,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="col-md-12">
-                        <label class="mt-2" >Comment*</label >
+                        <label class="mt-2" >Comment</label >
                     </div>
                     <div class="col-md-12 form-group mt-2">
                         <textarea rows="3" placeholder="Uraian Singkat Ciptaan" class="form-control" readonly disabled>{{$patentDetail->PatentNewComment->comment}}</textarea>

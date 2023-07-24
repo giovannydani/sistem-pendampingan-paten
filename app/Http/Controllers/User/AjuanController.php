@@ -282,6 +282,7 @@ class AjuanController extends Controller
             'PatentDocument',
             'PatentClaims',
             'PatentAttachment',
+            'PatentNewComment',
         ]);
 
         $data = [
