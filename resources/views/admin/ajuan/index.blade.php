@@ -88,57 +88,6 @@
                 ]
             });
 
-            // $('#application-table').DataTable();
         } );
-
-        function deleteApplicationType(id) {
-            var _token = "{{ csrf_token() }}";
-            var url = "{{url('/admin/application-type/')}}"+"/"+id;
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "Delete this type",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, Delete It!',
-                cancelButtonText: 'Cancel'
-                }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: url,
-                        type:'DELETE',
-                        data: {_token:_token},
-                        success: function(data) {
-                            Swal.fire(
-                                'Success',
-                                'Delete Type Data',
-                                'success'
-                            )
-
-                            applicationTypeTable.ajax.reload();
-                        }
-                    });
-                }
-            })
-        }
-
-        function addApplication() {
-            // console.log('add');
-            var _token = "{{ csrf_token() }}";
-            var url = "{{ route('user.ajuan.generateAdd') }}";
-            $.ajax({
-                url: url,
-                type:'POST',
-                data: {_token:_token},
-                success: function(data) {
-                    console.log(data);
-                    var url_redirect = "{{ url('ajuan/add/') }}"+"/"+data;
-                    window.location.replace(url_redirect);
-                    // applicationTypeTable.ajax.reload();
-
-                }
-            });
-        }
     </script>
 @endsection

@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\AjuanController as AdminAjuanController;
 use App\Http\Controllers\Admin\Parameter\PatentCorrespondenceController;
 use App\Http\Controllers\Admin\TemplateController as AdminTemplateController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\PatentTypeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -121,6 +122,13 @@ Route::group(['middleware' => ['auth']], function (){
                         Route::get('/', 'create')->name('index');
                         Route::post('/', 'store')->name('store');
                     });
+                });
+
+                Route::group(['prefix' => 'patent-type', 'as' => 'patent-type.', 'controller' => PatentTypeController::class], function (){
+                    Route::get('/', 'index')->name('index');
+                    Route::post('/data', 'data')->name('data');
+                    Route::delete('/{patentType}', 'destroy')->name('destroy');
+                    Route::delete('restore/{patentType}', 'restore')->withTrashed()->name('restore');
                 });
 
                 Route::group(['prefix' => 'ajuan', 'as' => 'ajuan.', 'controller' => AdminAjuanController::class], function (){

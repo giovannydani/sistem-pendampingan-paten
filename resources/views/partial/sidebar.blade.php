@@ -42,6 +42,13 @@
                 <span>Template</span>
             </a>
         </li>
+        </li>
+        <li class="sidebar-item {{ request()->routeIs('admin.patent-type.*') ? 'active' : '' }}">
+            <a href="{{ route('admin.patent-type.index') }}" class="sidebar-link">
+                <i class="bi bi-grid-fill"></i>
+                <span>Patent Type</span>
+            </a>
+        </li>
         <li class="sidebar-item {{ request()->routeIs('admin.ajuan.*') ? 'active' : '' }}">
             <a href="{{ route('admin.ajuan.index') }}" class="sidebar-link">
             <i class="bi bi-grid-fill"></i>
