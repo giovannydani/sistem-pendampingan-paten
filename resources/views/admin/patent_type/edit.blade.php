@@ -10,8 +10,9 @@
     <section class="section">
         <div class="card">
             <div class="card-body">
-                <form action="{{ route('admin.patent-type.store') }}" method="POST" class="form form-horizontal" enctype="multipart/form-data">
+                <form action="{{ route('admin.patent-type.update', ['patentType' => $patentType->id]) }}" method="POST" class="form form-horizontal" enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
                     <div class="form-body">
                         <div class="row">
                             <div class="col-md-6">
@@ -20,7 +21,7 @@
                                         <label>Nama Tipe</label>
                                     </div>
                                     <div class="col-md-9 form-group">
-                                        <input type="text" id="name" class="form-control" name="name" placeholder="Nama Tipe" value="{{ old('name') }}">
+                                        <input type="text" id="name" class="form-control" name="name" placeholder="Nama Tipe" value="{{ old('name', $patentType->name) }}">
                                         @error('name') <span class="text-danger">{{ $message }}</span> @enderror
                                     </div>
                                     <div class="col-sm-12 d-flex justify-content-end mt-2">

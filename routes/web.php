@@ -126,8 +126,12 @@ Route::group(['middleware' => ['auth']], function (){
 
                 Route::group(['prefix' => 'patent-type', 'as' => 'patent-type.', 'controller' => PatentTypeController::class], function (){
                     Route::get('/', 'index')->name('index');
+                    Route::post('/', 'store')->name('store');
+                    Route::get('/add', 'create')->name('create');
                     Route::post('/data', 'data')->name('data');
+                    Route::put('/{patentType}', 'update')->name('update');
                     Route::delete('/{patentType}', 'destroy')->name('destroy');
+                    Route::get('/{patentType}/edit', 'edit')->name('edit');
                     Route::delete('restore/{patentType}', 'restore')->withTrashed()->name('restore');
                 });
 

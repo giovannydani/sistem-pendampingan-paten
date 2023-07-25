@@ -230,6 +230,8 @@ class AjuanController extends Controller
 
         $patentDetail->PatentAttachment()->create($dataPatentAttachment);
 
+        Alert::toast('Success Menambahkan Ajuan', 'success');
+
         return to_route('user.ajuan.index');
     }
 
@@ -239,7 +241,9 @@ class AjuanController extends Controller
     public function show(PatentDetail $patentDetail)
     {
         $patentDetail->load([
-            'PatentType',
+            'PatentType' => function ($query){
+                $query->withTrashed();
+            },
             'ApplicantCriteria',
             'PatentApplicant' => function ($query){
                 $query->with([
@@ -269,8 +273,6 @@ class AjuanController extends Controller
             'patentDetail' => $patentDetail,
         ];
 
-        Alert::toast('Success Menambahkan Ajuan', 'success');
-
         // return $patentDetail;
         return view('user.ajuan.detail', $data);
     }
@@ -281,7 +283,9 @@ class AjuanController extends Controller
     public function edit(PatentDetail $patentDetail)
     {
         $patentDetail->load([
-            'PatentApplicant',
+            'PatentApplicant' => function ($query){
+                $query->withTrashed();
+            },
             'PatentDocument',
             'PatentClaims',
             'PatentAttachment',
@@ -305,7 +309,9 @@ class AjuanController extends Controller
     public function update(Request $request, PatentDetail $patentDetail)
     {
         $patentDetail->load([
-            'PatentApplicant',
+            'PatentApplicant'  => function ($query){
+                $query->withTrashed();
+            },
             'PatentDocument',
             'PatentClaims',
             'PatentAttachment',

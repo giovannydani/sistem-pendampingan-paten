@@ -26,7 +26,9 @@ class AjuanController extends Controller
     public function create(PatentDetail $patentDetail)
     {
         $patentDetail->load([
-            'PatentType',
+            'PatentType' => function ($query){
+                $query->withTrashed();
+            },
             'ApplicantCriteria',
             'PatentApplicant' => function ($query){
                 $query->with([
@@ -91,7 +93,9 @@ class AjuanController extends Controller
     public function show(PatentDetail $patentDetail)
     {
         $patentDetail->load([
-            'PatentType',
+            'PatentType' => function ($query){
+                $query->withTrashed();
+            },
             'ApplicantCriteria',
             'PatentApplicant' => function ($query){
                 $query->with([

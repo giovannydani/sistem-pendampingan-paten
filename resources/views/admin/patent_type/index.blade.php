@@ -4,13 +4,13 @@
 
 @section('content')
 <div class="page-heading">
-  <h3>Template Document</h3>
+  <h3>Patent Type</h3>
 </div>
 <div class="page-content">
     <section class="section">
         <div class="card">
             <div class="card-body">
-                <a href="{{ route('admin.template.create') }}" class="btn btn-primary me-3 mb-3"><i class="fa-solid fa-plus"></i> Add Template</a>
+                <a href="{{ route('admin.patent-type.create') }}" class="btn btn-primary me-3 mb-3"><i class="fa-solid fa-plus"></i> Add Template</a>
                 <table class="table" id="template-table">
                     <thead>
                         <tr>
@@ -65,7 +65,7 @@
                         "searchable": false,
                         data: 'id',
                         render: function(data, type, row){
-                            var url_edit = "{{url('/admin/template/')}}"+"/"+data+"/edit";
+                            var url_edit = "{{url('/admin/patent-type/')}}"+"/"+data+"/edit";
                             var delete_action = "onclick=\"deletePatentType('"+data+"')\"";
                             var restore_action = "onclick=\"restorePatentType('"+data+"')\"";
                             if (row.is_deleted) {
