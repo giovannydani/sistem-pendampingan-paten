@@ -6,6 +6,7 @@ use App\Enums\AjuanStatus;
 use App\Models\PatentDetail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
@@ -78,6 +79,8 @@ class AjuanController extends Controller
         $patentDetail->PatentComments()->create([
             'comment' => $request->comment,
         ]);
+
+        Alert::toast('Success Menabahkan Komen ke Ajuan', 'success');
 
         return to_route('admin.ajuan.index');
     }

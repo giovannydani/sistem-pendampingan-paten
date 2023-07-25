@@ -4,6 +4,7 @@ use App\Enums\UserRole;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Admin\AjuanController as AdminAjuanController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\TemplateController as AdminTemplateController;
 use App\Http\Controllers\Admin\Parameter\PatentCorrespondenceController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -119,6 +120,17 @@ Route::group(['middleware' => ['auth']], function (){
                     Route::put('/{patentDetail}', 'finishAjuan')->name('finishAjuan');
                     Route::get('/check/{patentDetail}', 'create')->name('create');
                     Route::get('/detail/{patentDetail}', 'show')->name('show');
+                });
+
+                // template
+                Route::group(['prefix' => 'template', 'as' => 'template.', 'controller' => AdminTemplateController::class], function () {
+                    Route::get('/', 'index')->name('index');
+                    Route::post('/', 'store')->name('store');
+                    Route::get('/add', 'create')->name('create');
+                    Route::post('/data', 'data')->name('data');
+                    Route::put('/{templateDocument:id}', 'update')->name('update');
+                    Route::delete('/{templateDocument:id}', 'destroy')->name('destroy');
+                    Route::get('/{templateDocument:id}/edit', 'edit')->name('edit');
                 });
             });
             Route::group(['middleware' => [UserRole::getMiddlewareSuperAdminRole()]], function (){

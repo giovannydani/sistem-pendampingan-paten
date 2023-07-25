@@ -20,6 +20,7 @@ use App\Models\PatentCorrespondence;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\File;
 use Illuminate\Support\Facades\Storage;
+use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 use App\Models\ParameterPatentCorrespondence;
@@ -268,6 +269,8 @@ class AjuanController extends Controller
             'patentDetail' => $patentDetail,
         ];
 
+        Alert::toast('Success Menambahkan Ajuan', 'success');
+
         // return $patentDetail;
         return view('user.ajuan.detail', $data);
     }
@@ -483,6 +486,8 @@ class AjuanController extends Controller
         }
 
         $patentDetail->PatentAttachment()->update($dataPatentAttachment);
+
+        Alert::toast('Success Edit Ajuan', 'success');
 
         return to_route('user.ajuan.index');
     }
