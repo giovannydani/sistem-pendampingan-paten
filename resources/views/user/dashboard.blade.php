@@ -23,7 +23,7 @@
                   <h6 class="text-muted font-semibold">
                     Total Ajuan
                   </h6>
-                  <h6 class="font-extrabold mb-0">0</h6>
+                  <h6 class="font-extrabold mb-0">{{$total_ajuan}}</h6>
                 </div>
               </div>
             </div>
@@ -42,7 +42,7 @@
                 </div>
                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                   <h6 class="text-muted font-semibold">Total Ajuan (Proses Admin)</h6>
-                  <h6 class="font-extrabold mb-0">0</h6>
+                  <h6 class="font-extrabold mb-0">{{$total_ajuan_admin_process}}</h6>
                 </div>
               </div>
             </div>
@@ -61,7 +61,7 @@
                 </div>
                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                   <h6 class="text-muted font-semibold">Total Ajuan (Revisi)</h6>
-                  <h6 class="font-extrabold mb-0">0</h6>
+                  <h6 class="font-extrabold mb-0">{{$total_ajuan_revision}}</h6>
                 </div>
               </div>
             </div>
@@ -80,7 +80,7 @@
                 </div>
                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                   <h6 class="text-muted font-semibold">Total Ajuan (Selesai)</h6>
-                  <h6 class="font-extrabold mb-0">0</h6>
+                  <h6 class="font-extrabold mb-0">{{$total_ajuan_finish}}</h6>
                 </div>
               </div>
             </div>

@@ -23,7 +23,7 @@
                 </div>
                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                   <h6 class="text-muted font-semibold">Total User</h6>
-                  {{-- <h6 class="font-extrabold mb-0">{{$total_user_count}}</h6> --}}
+                  <h6 class="font-extrabold mb-0">{{$total_user_count}}</h6>
                 </div>
               </div>
             </div>
@@ -42,7 +42,7 @@
                 </div>
                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                   <h6 class="text-muted font-semibold">User</h6>
-                  {{-- <h6 class="font-extrabold mb-0">{{$user_count}}</h6> --}}
+                  <h6 class="font-extrabold mb-0">{{$user_count}}</h6>
                 </div>
               </div>
             </div>
@@ -61,7 +61,7 @@
                 </div>
                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                   <h6 class="text-muted font-semibold">Admin</h6>
-                  {{-- <h6 class="font-extrabold mb-0">{{$admin_count}}</h6> --}}
+                  <h6 class="font-extrabold mb-0">{{$admin_count}}</h6>
                 </div>
               </div>
             </div>
@@ -81,7 +81,7 @@
                 </div>
                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                   <h6 class="text-muted font-semibold">Total Ajuan</h6>
-                  {{-- <h6 class="font-extrabold mb-0">{{$total_ajuan_count}}</h6> --}}
+                  <h6 class="font-extrabold mb-0">{{$total_ajuan_count}}</h6>
                 </div>
               </div>
             </div>
@@ -100,7 +100,7 @@
                 </div>
                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                   <h6 class="text-muted font-semibold">Total Ajuan (Admin Process)</h6>
-                  {{-- <h6 class="font-extrabold mb-0">{{$admin_process_ajuan_count}}</h6> --}}
+                  <h6 class="font-extrabold mb-0">{{$admin_process_ajuan_count}}</h6>
                 </div>
               </div>
             </div>
@@ -119,7 +119,7 @@
                 </div>
                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                   <h6 class="text-muted font-semibold">Total Ajuan (Revisi)</h6>
-                  {{-- <h6 class="font-extrabold mb-0">{{$revision_ajuan_count}}</h6> --}}
+                  <h6 class="font-extrabold mb-0">{{$revision_ajuan_count}}</h6>
                 </div>
               </div>
             </div>
@@ -138,7 +138,7 @@
                 </div>
                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                   <h6 class="text-muted font-semibold">Total Ajuan (Selesai)</h6>
-                  {{-- <h6 class="font-extrabold mb-0">{{$finish_ajuan_count}}</h6> --}}
+                  <h6 class="font-extrabold mb-0">{{$finish_ajuan_count}}</h6>
                 </div>
               </div>
             </div>

@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Enums\UserRole;
+use App\Enums\AjuanStatus;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Builder;
@@ -93,5 +94,20 @@ class User extends Authenticatable implements MustVerifyEmail
     public function applications()
     {
         return $this->hasMany(PatentDetail::class, 'owner_id')->where('is_submited', 1);
+    }
+
+    public function applications_finish()
+    {
+        return $this->hasMany(PatentDetail::class, 'owner_id')->where('status', AjuanStatus::Finish->value)->where('is_submited', 1);
+    }
+    
+    public function applications_process()
+    {
+        return $this->hasMany(PatentDetail::class, 'owner_id')->where('status', AjuanStatus::AdminProcess->value)->where('is_submited', 1);
+    }
+    
+    public function applications_revision()
+    {
+        return $this->hasMany(PatentDetail::class, 'owner_id')->where('status', AjuanStatus::Revision->value)->where('is_submited', 1);
     }
 }
