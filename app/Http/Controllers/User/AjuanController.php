@@ -126,7 +126,7 @@ class AjuanController extends Controller
             "pict_to_show_on_announcement_attachment" => "Gambar yang akan digunakan di pengumuman",
         ];
         
-        $validatorr = Validator::make(
+        Validator::make(
             data: $request->all(),
             rules: $rules,
             attributes: $attributes,
@@ -172,7 +172,7 @@ class AjuanController extends Controller
             $dataPatentApplicant['subdistrict_id'] = null;
         }
         
-        $patentDetail->PatentApplicants()->create($dataPatentApplicant);
+        // $patentDetail->PatentApplicants()->create($dataPatentApplicant);
         
         // document
         $dataPatentDocument = [
@@ -192,7 +192,7 @@ class AjuanController extends Controller
             $dataPatentDocument['abstract_en'] = null;
         }
 
-        $patentDetail->PatentDocument()->create($dataPatentDocument);
+        // $patentDetail->PatentDocument()->create($dataPatentDocument);
         
         foreach ($request->claim_add as $index => $claim_add) {
             $dataPatentClaim = [
@@ -200,7 +200,7 @@ class AjuanController extends Controller
                 'claim' => $claim_add,
             ];
 
-            $patentDetail->PatentClaims()->create($dataPatentClaim);
+            // $patentDetail->PatentClaims()->create($dataPatentClaim);
         }
 
         // attachment
@@ -228,7 +228,7 @@ class AjuanController extends Controller
             $dataPatentAttachment['attachment']['pict_to_show_on_announcement'] = $request->file('pict_to_show_on_announcement_attachment')->store('attachment_patent_'.$patentDetail->id);
         }
 
-        $patentDetail->PatentAttachment()->create($dataPatentAttachment);
+        // $patentDetail->PatentAttachment()->create($dataPatentAttachment);
 
         Alert::toast('Success Menambahkan Ajuan', 'success');
 
