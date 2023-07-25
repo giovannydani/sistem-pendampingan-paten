@@ -1,21 +1,22 @@
 <?php
 
+use App\Models\User;
 use App\Enums\UserRole;
-use App\Http\Controllers\AddressController;
-use App\Http\Controllers\Admin\AjuanController as AdminAjuanController;
-use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
-use App\Http\Controllers\Admin\TemplateController as AdminTemplateController;
-use App\Http\Controllers\Admin\Parameter\PatentCorrespondenceController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\User\AjuanController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\User\TemplateController as UserTemplateController;
+use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\User\AjuanController;
-use App\Http\Controllers\User\DashboardController;
-use App\Models\User;
+use App\Http\Controllers\Admin\AjuanController as AdminAjuanController;
+use App\Http\Controllers\Admin\Parameter\PatentCorrespondenceController;
+use App\Http\Controllers\Admin\TemplateController as AdminTemplateController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -85,9 +86,17 @@ Route::group(['middleware' => ['auth']], function (){
             Route::post('/generate/district/{province}', 'generateDistrict')->name('generateDistrict');
             Route::post('/generate/subdistrict/{district}', 'generateSubdistrict')->name('generateSubdistrict');
         });
+        
 
         Route::group(['as' => 'user.', 'middleware' => [UserRole::getMiddlewareUserRole()]], function (){
             Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+            // template
+            Route::group(['prefix' => 'template', 'as' => 'template.', 'controller' => UserTemplateController::class], function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('/download/{templateDocument:id}', 'download')->name('download');
+            });
+            
             Route::group(['prefix' => 'ajuan', 'as' => 'ajuan.', 'controller' => AjuanController::class], function (){
                 Route::get('/', 'index')->name('index');
                 Route::post('/data/', 'data')->name('data');

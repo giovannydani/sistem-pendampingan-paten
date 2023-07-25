@@ -9,12 +9,12 @@
             <span>Dashboard</span>
             </a>
         </li>
-        {{-- <li class="sidebar-item {{ request()->routeIs('user.template.*') ? 'active' : '' }}">
+        <li class="sidebar-item {{ request()->routeIs('user.template.*') ? 'active' : '' }}">
             <a href="{{ route('user.template.index') }}" class="sidebar-link">
             <i class="bi bi-grid-fill"></i>
             <span>Template</span>
             </a>
-        </li> --}}
+        </li>
         <li class="sidebar-item {{ request()->routeIs('user.ajuan.*') ? 'active' : '' }}">
             <a href="{{ route('user.ajuan.index') }}" class="sidebar-link">
             <i class="bi bi-grid-fill"></i>
