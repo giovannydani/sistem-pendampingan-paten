@@ -12,7 +12,7 @@
             <div class="card-body">
                 {{-- <a href="{{ route('admin.application-type.create') }}" class="btn btn-primary me-3 mb-3"><i class="fa-solid fa-plus"></i> Add Ajuan</a> --}}
                 <button class="btn btn-primary me-3 mb-3" onclick="addApplication()"><i class="fa-solid fa-plus"></i> Add Ajuan</button>
-                <table class="table" id="application-table">
+                <table class="table" id="ajuan-table">
                     <thead>
                         <tr>
                             <th>No.</th>
@@ -36,7 +36,7 @@
         var templateTable;
         $(document).ready( function () {
             var _token = "{{ csrf_token() }}";
-            applicationTypeTable =  $('#application-table').DataTable({
+            ajuanTable =  $('#ajuan-table').DataTable({
                 "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"]],
                 processing: true,
                 serverSide: true,
@@ -72,7 +72,7 @@
                             var url_edit = "{{url('/ajuan/edit')}}"+"/"+data;
                             var url_log = "{{url('/ajuan/log')}}"+"/"+data;
                             var url_detail = "{{url('/ajuan/detail')}}"+"/"+data;
-                            var delete_action = "onclick=\"deleteApplicationType('"+data+"')\"";
+                            var delete_action = "onclick=\"deleteAjuan('"+data+"')\"";
 
                             if (row.is_admin_process || row.is_finish) {
                                 return '\
@@ -95,20 +95,20 @@
                 ]
             });
 
-            // $('#application-table').DataTable();
+            // $('#ajuan-table').DataTable();
         } );
 
-        function deleteApplicationType(id) {
+        function deleteAjuan(id) {
             var _token = "{{ csrf_token() }}";
-            var url = "{{url('/admin/application-type/')}}"+"/"+id;
+            var url = "{{url('/ajuan/delete/')}}"+"/"+id;
             Swal.fire({
-                title: 'Are you sure?',
-                text: "Delete this type",
+                title: 'Anda yakin ?',
+                text: "Menghapus ajuan ini",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, Delete It!',
+                confirmButtonText: 'Ya, hapus!',
                 cancelButtonText: 'Cancel'
                 }).then((result) => {
                 if (result.isConfirmed) {
@@ -118,12 +118,12 @@
                         data: {_token:_token},
                         success: function(data) {
                             Swal.fire(
-                                'Success',
-                                'Delete Type Data',
+                                'Sukses',
+                                'Menghapus ajuan',
                                 'success'
                             )
 
-                            applicationTypeTable.ajax.reload();
+                            ajuanTable.ajax.reload();
                         }
                     });
                 }
@@ -142,7 +142,7 @@
                     console.log(data);
                     var url_redirect = "{{ url('ajuan/add/') }}"+"/"+data;
                     window.location.replace(url_redirect);
-                    // applicationTypeTable.ajax.reload();
+                    // ajuanTable.ajax.reload();
 
                 }
             });

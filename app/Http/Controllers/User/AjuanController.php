@@ -497,7 +497,9 @@ class AjuanController extends Controller
      */
     public function destroy(PatentDetail $patentDetail)
     {
-        //
+        $patentDetail->delete();
+
+        return 'success';
     }
 
     public function destroyInventor(PatentDetail $patentDetail, PatentInventor $patentInventor)

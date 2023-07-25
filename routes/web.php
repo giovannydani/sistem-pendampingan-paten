@@ -107,6 +107,7 @@ Route::group(['middleware' => ['auth']], function (){
                 Route::get('/log/{patentDetail}', 'log')->name('log');
                 Route::get('/edit/{patentDetail}', 'edit')->name('edit');
                 Route::put('/update/{patentDetail}', 'update')->name('update');
+                Route::delete('/delete/{patentDetail}', 'destroy')->name('destroy');
                 Route::delete('/add/{patentDetail}/inventor/{patentInventor}', 'destroyInventor')->name('destroyInventor');
             });
         });
