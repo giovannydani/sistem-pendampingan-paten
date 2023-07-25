@@ -43,12 +43,6 @@
             </a>
         </li>
         </li>
-        <li class="sidebar-item {{ request()->routeIs('admin.patent-type.*') ? 'active' : '' }}">
-            <a href="{{ route('admin.patent-type.index') }}" class="sidebar-link">
-                <i class="bi bi-grid-fill"></i>
-                <span>Patent Type</span>
-            </a>
-        </li>
         <li class="sidebar-item {{ request()->routeIs('admin.ajuan.*') ? 'active' : '' }}">
             <a href="{{ route('admin.ajuan.index') }}" class="sidebar-link">
             <i class="bi bi-grid-fill"></i>
@@ -79,7 +73,7 @@
                 <i class="bi bi-grid-fill"></i>
                 <span>Tipe Ajuan</span>
             </a>
-        </li>
+        </li> --}}
         @if (auth()->user()->role->isSuperAdmin())
             <li class="sidebar-item {{ request()->routeIs('admin.manage-admin.*') ? 'active' : '' }}">
                 <a href="{{ route('admin.manage-admin.index') }}" class="sidebar-link">
@@ -87,12 +81,12 @@
                 <span>Manage Admin</span>
                 </a>
             </li>
-        @endif --}}
+        @endif
     @endif
     
     
         {{-- @dump(auth()->user()->role->isAdmin()) --}}
-        {{-- @if (auth()->user()->role->isAdmin())
+        @if (auth()->user()->role->isAdmin())
         <li class="sidebar-item mt-5 {{ request()->routeIs('admin.profile.*') ? 'active' : '' }}">
             <a href="{{ route('admin.profile.index') }}" class="sidebar-link">
             <i class="bi bi-grid-fill"></i>
@@ -107,7 +101,7 @@
             <span>Profile</span>
             </a>
         </li>
-        @endif --}}
+        @endif
         <li class="sidebar-item">
             <a style="cursor: pointer; background-color: red" class='sidebar-link' onclick="logoutModalShow()">
             <i style="color: #fff" class="fa-solid fa-right-from-bracket"></i>

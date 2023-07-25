@@ -7,17 +7,20 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\User\AjuanController;
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\User\TemplateController as UserTemplateController;
 use App\Http\Controllers\User\DashboardController;
+use App\Http\Controllers\Admin\PatentTypeController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Admin\AjuanController as AdminAjuanController;
 use App\Http\Controllers\Admin\Parameter\PatentCorrespondenceController;
+use App\Http\Controllers\User\TemplateController as UserTemplateController;
 use App\Http\Controllers\Admin\TemplateController as AdminTemplateController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
-use App\Http\Controllers\Admin\PatentTypeController;
+use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
+use App\Http\Controllers\User\ProfileController as UserProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -92,6 +95,13 @@ Route::group(['middleware' => ['auth']], function (){
         Route::group(['as' => 'user.', 'middleware' => [UserRole::getMiddlewareUserRole()]], function (){
             Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+            // profile
+            Route::group(['prefix' => 'profile', 'as' => 'profile.', 'controller' => UserProfileController::class], function (){
+                Route::get('/', 'index')->name('index');
+                Route::post('/change-password', 'changePassword')->name('change-password');
+                Route::post('/change-detail', 'changeDetail')->name('change-detail');
+            });
+
             // template
             Route::group(['prefix' => 'template', 'as' => 'template.', 'controller' => UserTemplateController::class], function () {
                 Route::get('/', 'index')->name('index');
@@ -154,9 +164,24 @@ Route::group(['middleware' => ['auth']], function (){
                     Route::delete('/{templateDocument:id}', 'destroy')->name('destroy');
                     Route::get('/{templateDocument:id}/edit', 'edit')->name('edit');
                 });
+
+                // profile
+                Route::group(['prefix' => 'profile', 'as' => 'profile.', 'controller' => AdminProfileController::class], function (){
+                    Route::get('/', 'index')->name('index');
+                    Route::post('/change-password', 'changePassword')->name('change-password');
+                    Route::post('/change-detail', 'changeDetail')->name('change-detail');
+                });
             });
             Route::group(['middleware' => [UserRole::getMiddlewareSuperAdminRole()]], function (){
-
+                // manage-admin
+                Route::group(['prefix' => 'manage-admin', 'as' => 'manage-admin.', 'controller' => AdminController::class], function () {
+                    Route::get('/', 'index')->name('index');
+                    Route::get('/add', 'create')->name('create');
+                    Route::post('/data', 'data')->name('data');
+                    Route::post('/dataCreate', 'dataCreate')->name('dataCreate');
+                    Route::post('/add/{user:id}', 'store')->name('store');
+                    Route::delete('/{user:id}', 'destroy')->name('destroy');
+                });
             });
         });
     });
