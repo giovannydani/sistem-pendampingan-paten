@@ -61,7 +61,7 @@ class AjuanController extends Controller
      */
     public function store(Request $request, PatentDetail $patentDetail)
     {
-        return $request;
+        // return $request;
         $rules = [
             "patent_type_id" => ['required', 'exists:patent_types,id'],
             "applicant_criteria_id" => ['required', 'exists:applicant_criterias,id'],
@@ -152,7 +152,7 @@ class AjuanController extends Controller
             $dataPatentDetail['fractions_date'] = null;
         }
         
-        $patentDetail->update($dataPatentDetail);
+        // $patentDetail->update($dataPatentDetail);
         
         // storing PatentDetail data
         // $dataPatentApplicant = [
