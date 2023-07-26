@@ -137,11 +137,11 @@ class AjuanController extends Controller
 
         // storing PatentDetail data
         $dataPatentDetail = [
-            'patent_type_id' => $request->patent_type_id, 
-            'applicant_criterias_id' => $request->applicant_criteria_id,
-            'is_fractions' => $request->is_fractions,
+            // 'patent_type_id' => $request->patent_type_id, 
+            // 'applicant_criterias_id' => $request->applicant_criteria_id,
+            // 'is_fractions' => $request->is_fractions,
             // 'status' => AjuanStatus::AdminProcess,
-            // 'is_submited' => 1,
+            'is_submited' => 1,
         ];
 
         // if ($request->is_fractions == 'yes') {
