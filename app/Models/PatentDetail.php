@@ -150,4 +150,22 @@ class PatentDetail extends Model
     {
         $query->where('is_submited', 1);
     }
+
+    public function isInventorExist(int $number)
+    {
+        if (self::PatentInventor()->count() < $number){
+            $result = [
+                'status' => false,
+                'message' => "Inventor harus lebih dari ". $number,
+            ];
+        }else {
+            $result = [
+                'status' => true,
+                'message' => true,
+            ];
+        }
+        // return $number;
+
+        return (object) $result;
+    }
 }

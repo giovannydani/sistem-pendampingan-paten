@@ -24,9 +24,12 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 use App\Models\ParameterPatentCorrespondence;
+use Illuminate\Validation\Validator as ValidationValidator;
 
 class AjuanController extends Controller
 {
+    public $_minInventorCount = 1;
+
     /**
      * Display a listing of the resource.
      */
@@ -128,12 +131,22 @@ class AjuanController extends Controller
             "pict_to_show_on_announcement_attachment" => "Gambar yang akan digunakan di pengumuman",
         ];
         
-        Validator::make(
+        $validator = Validator::make(
             data: $request->all(),
             rules: $rules,
             // attributes: $attributes,
-        )
-        ->validate();
+        );
+
+        $validator->after(function (ValidationValidator $validator) use ($patentDetail) {
+            $inventor = $patentDetail->isInventorExist($this->_minInventorCount);
+            if ($inventor->status == false) {
+                $validator->errors()->add('inventor', $inventor->message);
+            }
+        });
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
 
         // storing PatentDetail data
         $dataPatentDetail = [
@@ -383,12 +396,22 @@ class AjuanController extends Controller
             "pict_to_show_on_announcement_attachment" => "Gambar yang akan digunakan di pengumuman",
         ];
         
-        $validatorr = Validator::make(
+        $validator = Validator::make(
             data: $request->all(),
             rules: $rules,
             attributes: $attributes,
-        )
-        ->validate();
+        );
+
+        $validator->after(function (ValidationValidator $validator) use ($patentDetail) {
+            $inventor = $patentDetail->isInventorExist($this->_minInventorCount);
+            if ($inventor->status == false) {
+                $validator->errors()->add('inventor', $inventor->message);
+            }
+        });
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
 
         // storing PatentDetail data
         $dataPatentDetail = [
