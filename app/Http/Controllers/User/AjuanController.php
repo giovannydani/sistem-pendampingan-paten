@@ -61,6 +61,7 @@ class AjuanController extends Controller
      */
     public function store(Request $request, PatentDetail $patentDetail)
     {
+        return $patentDetail;
         $rules = [
             "patent_type_id" => ['required', 'exists:patent_types,id'],
             "applicant_criteria_id" => ['required', 'exists:applicant_criterias,id'],
