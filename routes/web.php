@@ -112,14 +112,14 @@ Route::group(['middleware' => ['auth']], function (){
                 Route::get('/', 'index')->name('index');
                 Route::post('/data/', 'data')->name('data');
                 Route::post('/generate/', 'generateAdd')->name('generateAdd');
-                Route::put('/{patentDetail}', 'store')->name('store');
-                Route::get('/add/{patentDetail}', 'create')->name('create');
-                Route::get('/detail/{patentDetail}', 'show')->name('show');
-                Route::get('/log/{patentDetail}', 'log')->name('log');
-                Route::get('/edit/{patentDetail}', 'edit')->name('edit');
-                Route::put('/update/{patentDetail}', 'update')->name('update');
-                Route::delete('/delete/{patentDetail}', 'destroy')->name('destroy');
-                Route::delete('/add/{patentDetail}/inventor/{patentInventor}', 'destroyInventor')->name('destroyInventor');
+                Route::put('/{patentDetail:id}', 'store')->name('store');
+                Route::get('/add/{patentDetail:id}', 'create')->name('create');
+                Route::get('/detail/{patentDetail:id}', 'show')->name('show');
+                Route::get('/log/{patentDetail:id}', 'log')->name('log');
+                Route::get('/edit/{patentDetail:id}', 'edit')->name('edit');
+                Route::put('/update/{patentDetail:id}', 'update')->name('update');
+                Route::delete('/delete/{patentDetail:id}', 'destroy')->name('destroy');
+                Route::delete('/add/{patentDetail:id}/inventor/{patentInventor}', 'destroyInventor')->name('destroyInventor');
             });
         });
 
@@ -148,10 +148,10 @@ Route::group(['middleware' => ['auth']], function (){
                 Route::group(['prefix' => 'ajuan', 'as' => 'ajuan.', 'controller' => AdminAjuanController::class], function (){
                     Route::get('/', 'index')->name('index');
                     Route::post('/data', 'data')->name('data');
-                    Route::post('/{patentDetail}', 'store')->name('store');
-                    Route::put('/{patentDetail}', 'finishAjuan')->name('finishAjuan');
-                    Route::get('/check/{patentDetail}', 'create')->name('create');
-                    Route::get('/detail/{patentDetail}', 'show')->name('show');
+                    Route::post('/{patentDetail:id}', 'store')->name('store');
+                    Route::put('/{patentDetail:id}', 'finishAjuan')->name('finishAjuan');
+                    Route::get('/check/{patentDetail:id}', 'create')->name('create');
+                    Route::get('/detail/{patentDetail:id}', 'show')->name('show');
                 });
 
                 // template
