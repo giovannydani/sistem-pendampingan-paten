@@ -1,10 +1,10 @@
 @extends('template.main')
 
-@section('page-title', 'Tambah Ajuan')
+@section('page-title', 'Edit Ajuan')
 
 @section('content')
 <div class="page-heading">
-  <h3>Tambah Ajuan</h3>
+  <h3>Edit Ajuan</h3>
 </div>
 <div class="page-content">
     <section class="section">

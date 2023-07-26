@@ -288,9 +288,7 @@ class AjuanController extends Controller
     public function edit(PatentDetail $patentDetail)
     {
         $patentDetail->load([
-            'PatentApplicant' => function ($query){
-                $query->withTrashed();
-            },
+            'PatentApplicant',
             'PatentDocument',
             'PatentClaims',
             'PatentAttachment',
@@ -314,9 +312,7 @@ class AjuanController extends Controller
     public function update(Request $request, PatentDetail $patentDetail)
     {
         $patentDetail->load([
-            'PatentApplicant'  => function ($query){
-                $query->withTrashed();
-            },
+            'PatentApplicant',
             'PatentDocument',
             'PatentClaims',
             'PatentAttachment',
