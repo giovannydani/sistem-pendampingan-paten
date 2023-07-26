@@ -61,7 +61,7 @@ class AjuanController extends Controller
      */
     public function store(Request $request, PatentDetail $patentDetail)
     {
-        // return $patentDetail;
+        return $request;
         $rules = [
             "patent_type_id" => ['required', 'exists:patent_types,id'],
             "applicant_criteria_id" => ['required', 'exists:applicant_criterias,id'],
@@ -131,7 +131,7 @@ class AjuanController extends Controller
         Validator::make(
             data: $request->all(),
             rules: $rules,
-            attributes: $attributes,
+            // attributes: $attributes,
         )
         ->validate();
 
