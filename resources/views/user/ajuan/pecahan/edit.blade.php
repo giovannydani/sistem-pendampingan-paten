@@ -33,7 +33,7 @@
                     </div>
                     <div class="col-md-8 form-group" id="fractions_number_input">
                         <div class="input-group mb-3">
-                            <input type="text" id="fractions_number" class="form-control" name="fractions_number" placeholder="Nama" value="{{ old('fractions_number', $patentDetail->fractions_number) }}">
+                            <input type="text" id="fractions_number" class="form-control" name="fractions_number" placeholder="Nomor Permohonan Induk" value="{{ old('fractions_number', $patentDetail->fractions_number) }}">
                         </div>
                         @error('fractions_number') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
@@ -48,7 +48,7 @@
                         </div>
                         <div class="col-md-8 form-group" id="fractions_date_input">
                             <div class="input-group mb-3">
-                                <input type="date" id="fractions_date" class="form-control" name="fractions_date" placeholder="Nama" value="{{ old('fractions_date', $patentDetail->fractions_date) }}">
+                                <input type="date" id="fractions_date" class="form-control" name="fractions_date" value="{{ old('fractions_date', $patentDetail->fractions_date) }}">
                             </div>
                             @error('fractions_date') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
