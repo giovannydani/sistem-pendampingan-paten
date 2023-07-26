@@ -65,33 +65,34 @@ class AjuanController extends Controller
         $rules = [
             "patent_type_id" => ['required', 'exists:patent_types,id'],
             "applicant_criteria_id" => ['required', 'exists:applicant_criterias,id'],
-
-            "name_applicant" => ['required'],
-            "email_applicant" => ['required'],
-            "no_telp_applicant" => ['required'],
-            "nationality_id_applicant" => ['required', 'exists:countries,id'],
-            "country_id_applicant" => ['required', 'exists:countries,id'],
-            "address_applicant" => ['required'],
-            "province_id_applicant" => [Rule::requiredIf($request->country_id_applicant == '8d1458c5-dde2-3ac3-901b-29d55074c4ec')],
-            "district_id_applicant" => [Rule::requiredIf($request->country_id_applicant == '8d1458c5-dde2-3ac3-901b-29d55074c4ec')],
-            "subdistrict_id_applicant" => [Rule::requiredIf($request->country_id_applicant == '8d1458c5-dde2-3ac3-901b-29d55074c4ec')],
-
+            
             "is_fractions" => ['required'],
             "fractions_number" => [Rule::requiredIf($request->is_fractions == 'yes')],
             "fractions_date" => [Rule::requiredIf($request->is_fractions == 'yes')],
 
-            "invention_title_id" => ['required'],
-            "claim_add.*" => ['required', new required_striptags],
-            "invention_abstract_id" => ['required', new MaxWord(200)],
-            "invention_abstract_en" => [new MaxWord(200)],
+            // "name_applicant" => ['required'],
+            // "email_applicant" => ['required'],
+            // "no_telp_applicant" => ['required'],
+            // "nationality_id_applicant" => ['required', 'exists:countries,id'],
+            // "country_id_applicant" => ['required', 'exists:countries,id'],
+            // "address_applicant" => ['required'],
+            // "province_id_applicant" => [Rule::requiredIf($request->country_id_applicant == '8d1458c5-dde2-3ac3-901b-29d55074c4ec')],
+            // "district_id_applicant" => [Rule::requiredIf($request->country_id_applicant == '8d1458c5-dde2-3ac3-901b-29d55074c4ec')],
+            // "subdistrict_id_applicant" => [Rule::requiredIf($request->country_id_applicant == '8d1458c5-dde2-3ac3-901b-29d55074c4ec')],
 
-            "description_attachment_id" => ['required', File::types(['pdf'])->max(5000)],
-            "description_attachment_en" => ['required', File::types(['pdf'])->max(5000)],
-            "sequence_attachment" => ['required', File::types(['pdf'])->max(5000)],
-            "claim_attachment" => ['required', File::types(['pdf'])->max(5000)],
-            "abstract_attachment" => ['required', File::types(['pdf'])->max(5000)],
-            "technical_pict_attachment" => ['required', File::types(['pdf'])->max(5000)],
-            "pict_to_show_on_announcement_attachment" => ['required', File::types(['pdf'])->max(5000)],
+
+            // "invention_title_id" => ['required'],
+            // "claim_add.*" => ['required', new required_striptags],
+            // "invention_abstract_id" => ['required', new MaxWord(200)],
+            // "invention_abstract_en" => [new MaxWord(200)],
+
+            // "description_attachment_id" => ['required', File::types(['pdf'])->max(5000)],
+            // "description_attachment_en" => ['required', File::types(['pdf'])->max(5000)],
+            // "sequence_attachment" => ['required', File::types(['pdf'])->max(5000)],
+            // "claim_attachment" => ['required', File::types(['pdf'])->max(5000)],
+            // "abstract_attachment" => ['required', File::types(['pdf'])->max(5000)],
+            // "technical_pict_attachment" => ['required', File::types(['pdf'])->max(5000)],
+            // "pict_to_show_on_announcement_attachment" => ['required', File::types(['pdf'])->max(5000)],
         ];
 
         $attributes = [
