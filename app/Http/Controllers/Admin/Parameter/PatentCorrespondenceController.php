@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
+use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Validator;
 use App\Models\ParameterPatentCorrespondence;
 
@@ -87,6 +88,8 @@ class PatentCorrespondenceController extends Controller
         $correspondence = ParameterPatentCorrespondence::first();
 
         $correspondence->update($dataUpdate);
+
+        Alert::toast('Success Edit Data Koresponden', 'success');
 
         return to_route('admin.parameter.korespondensi.index');
     }
