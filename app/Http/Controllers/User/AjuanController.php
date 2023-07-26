@@ -139,18 +139,19 @@ class AjuanController extends Controller
         $dataPatentDetail = [
             'patent_type_id' => $request->patent_type_id, 
             'applicant_criterias_id' => $request->applicant_criteria_id,
-            // 'is_fractions' => $request->is_fractions,
             'status' => AjuanStatus::AdminProcess->value,
             'is_submited' => 1,
         ];
 
-        // if ($request->is_fractions == 'yes') {
-        //     $dataPatentDetail['fractions_number'] = $request->fractions_number;
-        //     $dataPatentDetail['fractions_date'] = $request->fractions_date;
-        // }else {
-        //     $dataPatentDetail['fractions_number'] = null;
-        //     $dataPatentDetail['fractions_date'] = null;
-        // }
+        if ($request->is_fractions == 'yes') {
+            $dataPatentDetail['is_fractions'] = 1;
+            $dataPatentDetail['fractions_number'] = $request->fractions_number;
+            $dataPatentDetail['fractions_date'] = $request->fractions_date;
+        }else {
+            $dataPatentDetail['is_fractions'] = 0;
+            $dataPatentDetail['fractions_number'] = null;
+            $dataPatentDetail['fractions_date'] = null;
+        }
         
         $patentDetail->update($dataPatentDetail);
         
