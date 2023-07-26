@@ -61,7 +61,7 @@ class AjuanController extends Controller
      */
     public function store(Request $request, PatentDetail $patentDetail)
     {
-        return $patentDetail;
+        // return $patentDetail;
         $rules = [
             "patent_type_id" => ['required', 'exists:patent_types,id'],
             "applicant_criteria_id" => ['required', 'exists:applicant_criterias,id'],
@@ -231,7 +231,7 @@ class AjuanController extends Controller
 
         // $patentDetail->PatentAttachment()->create($dataPatentAttachment);
 
-        Alert::toast('Success Menambahkan Ajuan', 'success');
+        // Alert::toast('Success Menambahkan Ajuan', 'success');
 
         return to_route('user.ajuan.index');
     }
