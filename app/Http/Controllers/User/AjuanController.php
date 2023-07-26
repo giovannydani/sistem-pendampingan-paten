@@ -139,7 +139,7 @@ class AjuanController extends Controller
         $dataPatentDetail = [
             'patent_type_id' => $request->patent_type_id, 
             'applicant_criterias_id' => $request->applicant_criteria_id,
-            'status' => AjuanStatus::AdminProcess->value,
+            'status' => AjuanStatus::AdminProcess,
             'is_submited' => 1,
         ];
 
@@ -156,82 +156,82 @@ class AjuanController extends Controller
         $patentDetail->update($dataPatentDetail);
         
         // storing PatentDetail data
-        // $dataPatentApplicant = [
-        //     'name' => $request->name_applicant,
-        //     'email' => $request->email_applicant,
-        //     'telephone' => $request->no_telp_applicant,
-        //     'nationality_id' => $request->nationality_id_applicant,
-        //     'country_id' => $request->country_id_applicant,
-        //     'address' => $request->address_applicant,
-        // ];
+        $dataPatentApplicant = [
+            'name' => $request->name_applicant,
+            'email' => $request->email_applicant,
+            'telephone' => $request->no_telp_applicant,
+            'nationality_id' => $request->nationality_id_applicant,
+            'country_id' => $request->country_id_applicant,
+            'address' => $request->address_applicant,
+        ];
 
-        // if ($request->country_id_applicant == '8d1458c5-dde2-3ac3-901b-29d55074c4ec') {
-        //     $dataPatentApplicant['province_id'] = $request->province_id_applicant;
-        //     $dataPatentApplicant['district_id'] = $request->district_id_applicant;
-        //     $dataPatentApplicant['subdistrict_id'] = $request->subdistrict_id_applicant;
-        // }else {
-        //     $dataPatentApplicant['province_id'] = null;
-        //     $dataPatentApplicant['district_id'] = null;
-        //     $dataPatentApplicant['subdistrict_id'] = null;
-        // }
+        if ($request->country_id_applicant == '8d1458c5-dde2-3ac3-901b-29d55074c4ec') {
+            $dataPatentApplicant['province_id'] = $request->province_id_applicant;
+            $dataPatentApplicant['district_id'] = $request->district_id_applicant;
+            $dataPatentApplicant['subdistrict_id'] = $request->subdistrict_id_applicant;
+        }else {
+            $dataPatentApplicant['province_id'] = null;
+            $dataPatentApplicant['district_id'] = null;
+            $dataPatentApplicant['subdistrict_id'] = null;
+        }
         
-        // $patentDetail->PatentApplicants()->create($dataPatentApplicant);
+        $patentDetail->PatentApplicants()->create($dataPatentApplicant);
         
         // document
-        // $dataPatentDocument = [
-        //     'title_id' => $request->invention_title_id,
-        //     'abstract_id' => $request->invention_abstract_id,
-        // ];
+        $dataPatentDocument = [
+            'title_id' => $request->invention_title_id,
+            'abstract_id' => $request->invention_abstract_id,
+        ];
         
-        // if ($request->invention_title_en) {
-        //     $dataPatentDocument['title_en'] = $request->invention_title_en;
-        // }else {
-        //     $dataPatentDocument['title_en'] = null;
-        // }
+        if ($request->invention_title_en) {
+            $dataPatentDocument['title_en'] = $request->invention_title_en;
+        }else {
+            $dataPatentDocument['title_en'] = null;
+        }
         
-        // if ($request->invention_abstract_en) {
-        //     $dataPatentDocument['abstract_en'] = $request->invention_abstract_en;
-        // }else {
-        //     $dataPatentDocument['abstract_en'] = null;
-        // }
+        if ($request->invention_abstract_en) {
+            $dataPatentDocument['abstract_en'] = $request->invention_abstract_en;
+        }else {
+            $dataPatentDocument['abstract_en'] = null;
+        }
 
-        // $patentDetail->PatentDocument()->create($dataPatentDocument);
+        $patentDetail->PatentDocument()->create($dataPatentDocument);
         
-        // foreach ($request->claim_add as $index => $claim_add) {
-        //     $dataPatentClaim = [
-        //         'iteration' => $index+1,
-        //         'claim' => $claim_add,
-        //     ];
+        foreach ($request->claim_add as $index => $claim_add) {
+            $dataPatentClaim = [
+                'iteration' => $index+1,
+                'claim' => $claim_add,
+            ];
 
-        //     $patentDetail->PatentClaims()->create($dataPatentClaim);
-        // }
+            $patentDetail->PatentClaims()->create($dataPatentClaim);
+        }
 
         // attachment
-        // $dataPatentAttachment = [];
+        $dataPatentAttachment = [];
         
-        // if($request->description_attachment_id){
-        //     $dataPatentAttachment['attachment']['description_id'] = $request->file('description_attachment_id')->store('attachment_patent_'.$patentDetail->id);
-        // }
-        // if($request->description_attachment_en){
-        //     $dataPatentAttachment['attachment']['description_en'] = $request->file('description_attachment_en')->store('attachment_patent_'.$patentDetail->id);
-        // }
-        // if($request->sequence_attachment){
-        //     $dataPatentAttachment['attachment']['sequence'] = $request->file('sequence_attachment')->store('attachment_patent_'.$patentDetail->id);
-        // }
-        // if($request->claim_attachment){
-        //     $dataPatentAttachment['attachment']['claim'] = $request->file('claim_attachment')->store('attachment_patent_'.$patentDetail->id);
-        // }
-        // if($request->abstract_attachment){
-        //     $dataPatentAttachment['attachment']['abstract'] = $request->file('abstract_attachment')->store('attachment_patent_'.$patentDetail->id);
-        // }
-        // if($request->technical_pict_attachment){
-        //     $dataPatentAttachment['attachment']['technical_pict'] = $request->file('technical_pict_attachment')->store('attachment_patent_'.$patentDetail->id);
-        // }
-        // if($request->pict_to_show_on_announcement_attachment){
-        //     $dataPatentAttachment['attachment']['pict_to_show_on_announcement'] = $request->file('pict_to_show_on_announcement_attachment')->store('attachment_patent_'.$patentDetail->id);
-        // }
+        if($request->description_attachment_id){
+            $dataPatentAttachment['attachment']['description_id'] = $request->file('description_attachment_id')->store('attachment_patent_'.$patentDetail->id);
+        }
+        if($request->description_attachment_en){
+            $dataPatentAttachment['attachment']['description_en'] = $request->file('description_attachment_en')->store('attachment_patent_'.$patentDetail->id);
+        }
+        if($request->sequence_attachment){
+            $dataPatentAttachment['attachment']['sequence'] = $request->file('sequence_attachment')->store('attachment_patent_'.$patentDetail->id);
+        }
+        if($request->claim_attachment){
+            $dataPatentAttachment['attachment']['claim'] = $request->file('claim_attachment')->store('attachment_patent_'.$patentDetail->id);
+        }
+        if($request->abstract_attachment){
+            $dataPatentAttachment['attachment']['abstract'] = $request->file('abstract_attachment')->store('attachment_patent_'.$patentDetail->id);
+        }
+        if($request->technical_pict_attachment){
+            $dataPatentAttachment['attachment']['technical_pict'] = $request->file('technical_pict_attachment')->store('attachment_patent_'.$patentDetail->id);
+        }
+        if($request->pict_to_show_on_announcement_attachment){
+            $dataPatentAttachment['attachment']['pict_to_show_on_announcement'] = $request->file('pict_to_show_on_announcement_attachment')->store('attachment_patent_'.$patentDetail->id);
+        }
 
-        // $patentDetail->PatentAttachment()->create($dataPatentAttachment);
+        $patentDetail->PatentAttachment()->create($dataPatentAttachment);
 
         Alert::toast('Success Menambahkan Ajuan', 'success');
 
@@ -398,15 +398,17 @@ class AjuanController extends Controller
         $dataPatentDetail = [
             'patent_type_id' => $request->patent_type_id, 
             'applicant_criterias_id' => $request->applicant_criteria_id,
-            'is_fractions' => $request->is_fractions,
+            // 'is_fractions' => $request->is_fractions,
             // 'status' => AjuanStatus::AdminProcess,
             'is_submited' => 1,
         ];
 
         if ($request->is_fractions == 'yes') {
+            $dataPatentDetail['is_fractions'] = 1;
             $dataPatentDetail['fractions_number'] = $request->fractions_number;
             $dataPatentDetail['fractions_date'] = $request->fractions_date;
         }else {
+            $dataPatentDetail['is_fractions'] = 0;
             $dataPatentDetail['fractions_number'] = null;
             $dataPatentDetail['fractions_date'] = null;
         }
