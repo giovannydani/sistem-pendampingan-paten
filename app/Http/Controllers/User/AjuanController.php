@@ -141,7 +141,7 @@ class AjuanController extends Controller
             'applicant_criterias_id' => $request->applicant_criteria_id,
             'is_fractions' => $request->is_fractions,
             // 'status' => AjuanStatus::AdminProcess,
-            'is_submited' => 1,
+            // 'is_submited' => 1,
         ];
 
         if ($request->is_fractions == 'yes') {
