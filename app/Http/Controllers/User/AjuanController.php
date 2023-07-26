@@ -140,7 +140,7 @@ class AjuanController extends Controller
             'patent_type_id' => $request->patent_type_id, 
             'applicant_criterias_id' => $request->applicant_criteria_id,
             'is_fractions' => $request->is_fractions,
-            'status' => AjuanStatus::AdminProcess,
+            // 'status' => AjuanStatus::AdminProcess,
             'is_submited' => 1,
         ];
 
@@ -152,7 +152,7 @@ class AjuanController extends Controller
             $dataPatentDetail['fractions_date'] = null;
         }
         
-        // $patentDetail->update($dataPatentDetail);
+        $patentDetail->update($dataPatentDetail);
         
         // storing PatentDetail data
         // $dataPatentApplicant = [
