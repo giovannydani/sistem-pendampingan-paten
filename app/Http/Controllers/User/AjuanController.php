@@ -233,7 +233,9 @@ class AjuanController extends Controller
 
         // Alert::toast('Success Menambahkan Ajuan', 'success');
 
-        return to_route('user.ajuan.index');
+        // return to_route('user.ajuan.index');
+
+        return $patentDetail;
     }
 
     /**
