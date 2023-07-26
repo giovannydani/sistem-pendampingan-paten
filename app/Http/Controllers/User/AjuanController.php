@@ -144,13 +144,13 @@ class AjuanController extends Controller
             // 'is_submited' => 1,
         ];
 
-        if ($request->is_fractions == 'yes') {
-            $dataPatentDetail['fractions_number'] = $request->fractions_number;
-            $dataPatentDetail['fractions_date'] = $request->fractions_date;
-        }else {
-            $dataPatentDetail['fractions_number'] = null;
-            $dataPatentDetail['fractions_date'] = null;
-        }
+        // if ($request->is_fractions == 'yes') {
+        //     $dataPatentDetail['fractions_number'] = $request->fractions_number;
+        //     $dataPatentDetail['fractions_date'] = $request->fractions_date;
+        // }else {
+        //     $dataPatentDetail['fractions_number'] = null;
+        //     $dataPatentDetail['fractions_date'] = null;
+        // }
         
         $patentDetail->update($dataPatentDetail);
         
