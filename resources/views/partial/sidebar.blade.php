@@ -59,22 +59,23 @@
         @endif
     @endif
     
-    
-        @if (auth()->user()->role->isAdmin())
-        <li class="sidebar-item mt-5 {{ request()->routeIs('admin.profile.*') ? 'active' : '' }}">
-            <a href="{{ route('admin.profile.index') }}" class="sidebar-link">
-            <i class="bi bi-grid-fill"></i>
-            <span>Profile</span>
-            </a>
-        </li>
-        @endif
-        @if (auth()->user()->role->isUser())
-        <li class="sidebar-item mt-5 {{ request()->routeIs('user.profile.*') ? 'active' : '' }}">
-            <a href="{{ route('user.profile.index') }}" class="sidebar-link">
-            <i class="bi bi-grid-fill"></i>
-            <span>Profile</span>
-            </a>
-        </li>
+        @if (auth()->user()->type->isNormal())
+            @if (auth()->user()->role->isAdmin())
+            <li class="sidebar-item mt-5 {{ request()->routeIs('admin.profile.*') ? 'active' : '' }}">
+                <a href="{{ route('admin.profile.index') }}" class="sidebar-link">
+                <i class="bi bi-grid-fill"></i>
+                <span>Profile</span>
+                </a>
+            </li>
+            @endif
+            @if (auth()->user()->role->isUser())
+            <li class="sidebar-item mt-5 {{ request()->routeIs('user.profile.*') ? 'active' : '' }}">
+                <a href="{{ route('user.profile.index') }}" class="sidebar-link">
+                <i class="bi bi-grid-fill"></i>
+                <span>Profile</span>
+                </a>
+            </li>
+            @endif
         @endif
         <li class="sidebar-item">
             <a style="cursor: pointer; background-color: red" class='sidebar-link' onclick="logoutModalShow()">

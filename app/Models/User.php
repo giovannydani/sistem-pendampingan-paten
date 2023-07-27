@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enums\UserRole;
 use App\Enums\AjuanStatus;
+use App\Enums\UserType;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Builder;
@@ -29,6 +30,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
         'role',
+        'sso_id',
+        'type',
     ];
 
     /**
@@ -50,6 +53,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
         'role' => UserRole::class,
+        'type' => UserType::class,
     ];
     
     public function isAdmin() : Attribute
@@ -63,6 +67,13 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return Attribute::make(
             get: fn () => $this->role->isUser(),
+        );
+    }
+
+    public function isNormalType() : Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->type->isNormal(),
         );
     }
 
