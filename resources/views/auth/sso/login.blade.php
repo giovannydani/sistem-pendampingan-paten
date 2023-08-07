@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
+    <title>Login SSO UMS</title>
     <link rel="stylesheet" href="{{ asset('assets/css/main/app.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/pages/auth.css') }}" />
     <link
@@ -56,23 +56,7 @@
               <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">
                 Log in
               </button>
-              @if (in_array('sso', config('app.authArray')))
-              <a href="{{route('auth.sso.ums.umsIndex')}}" class="btn btn-secondary btn-block btn-lg shadow-lg mt-5">
-                SSO UMS
-              </a>
-              @endif
             </form>
-            <div class="text-center mt-5" style="font-size: 20px">
-              <p class="text-gray-600">
-                Don't have an account?
-                <a href="{{ route('auth.register.index') }}" class="font-bold">Sign up</a>
-              </p>
-              <p>
-                <a class="font-bold" href="{{ route('password.request') }}">
-                    Forgot password?
-                </a>
-              </p>
-            </div>
           </div>
         </div>
         <div class="col-lg-7 d-none d-lg-block">

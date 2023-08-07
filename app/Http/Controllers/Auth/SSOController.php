@@ -14,7 +14,7 @@ class SSOController extends Controller
 {
     public function umsIndex()
     {
-        // 
+        return view('auth.sso.login');
     }
 
     public function umsStore(Request $request)

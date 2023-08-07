@@ -16,6 +16,7 @@ class LoginController extends Controller
 
     public function index()
     {
+        // return config('app.authArray');
         return view('auth.login');
     }
 

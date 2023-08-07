@@ -37,32 +37,32 @@ use App\Http\Controllers\User\ProfileController as UserProfileController;
 //     return view('welcome');
 // });
 
-Route::group(['middleware' => 'guest'], function (){
-    Route::get('/', [LoginController::class, 'index'])->name('index');
+// Route::group(['middleware' => 'guest'], function (){
+//     Route::get('/', [LoginController::class, 'index'])->name('index');
 
-    // forgot password
-    Route::group(['controller' => ForgotPasswordController::class], function (){
-        Route::get('/forgot-password', 'index')->name('password.request');
-        Route::post('/forgot-password', 'handler')->name('password.email');
-    });
+//     // forgot password
+//     Route::group(['controller' => ForgotPasswordController::class], function (){
+//         Route::get('/forgot-password', 'index')->name('password.request');
+//         Route::post('/forgot-password', 'handler')->name('password.email');
+//     });
 
-    // reset password 
-    Route::group(['controller' => ResetPasswordController::class], function (){
-        Route::post('/reset-password', 'handler')->name('password.update');
-        Route::get('/reset-password/{token}', 'index')->name('password.reset');
-    });
+//     // reset password 
+//     Route::group(['controller' => ResetPasswordController::class], function (){
+//         Route::post('/reset-password', 'handler')->name('password.update');
+//         Route::get('/reset-password/{token}', 'index')->name('password.reset');
+//     });
 
-    Route::group(['as' => 'auth.'], function (){
-        Route::group(['prefix' => 'login', 'as' => 'login.', 'controller' => LoginController::class], function (){
-            Route::get('/', 'index')->name('index');
-            Route::post('/', 'authenticate')->name('store');
-        });
-        Route::group(['prefix' => 'register', 'as' => 'register.', 'controller' => RegisterController::class], function (){
-            Route::get('/', 'index')->name('index');
-            Route::post('/', 'store')->name('store');
-        });
-    });
-});
+//     Route::group(['as' => 'auth.'], function (){
+//         Route::group(['prefix' => 'login', 'as' => 'login.', 'controller' => LoginController::class], function (){
+//             Route::get('/', 'index')->name('index');
+//             Route::post('/', 'authenticate')->name('store');
+//         });
+//         Route::group(['prefix' => 'register', 'as' => 'register.', 'controller' => RegisterController::class], function (){
+//             Route::get('/', 'index')->name('index');
+//             Route::post('/', 'store')->name('store');
+//         });
+//     });
+// });
 
 Route::group(['middleware' => ['auth']], function (){
 
