@@ -176,10 +176,9 @@ Route::group(['middleware' => ['auth']], function (){
                 // manage-admin
                 Route::group(['prefix' => 'manage-admin', 'as' => 'manage-admin.', 'controller' => AdminController::class], function () {
                     Route::get('/', 'index')->name('index');
+                    Route::post('/', 'store')->name('store');
                     Route::get('/add', 'create')->name('create');
                     Route::post('/data', 'data')->name('data');
-                    Route::post('/dataCreate', 'dataCreate')->name('dataCreate');
-                    Route::post('/add/{user:id}', 'store')->name('store');
                     Route::delete('/{user:id}', 'destroy')->name('destroy');
                 });
             });
