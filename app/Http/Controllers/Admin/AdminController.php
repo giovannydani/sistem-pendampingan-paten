@@ -54,7 +54,7 @@ class AdminController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'created_at' => Carbon::now(),
+            'email_verified_at' => Carbon::now(),
             'role' => UserRole::ADMIN,
         ]);
 
