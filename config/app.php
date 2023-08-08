@@ -186,6 +186,6 @@ return [
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 
-    'auth' => 'manual',
-    'authArray' => explode('|', 'manual'),
+    'auth' => 'manual|sso',
+    'authArray' => explode('|', 'manual|sso'),
 ];
