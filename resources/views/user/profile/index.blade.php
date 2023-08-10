@@ -44,7 +44,7 @@
                                 <form action="{{ route('user.profile.change-password') }}" method="POST" class="form form-horizontal" enctype="multipart/form-data" autocomplete="off">
                                     @csrf
                                     <div class="col-sm-12 mb-3">
-                                        <h5>Detail</h5>
+                                        <h5>Password</h5>
                                     </div>
                                     <div class="col-md-3">
                                         <label>Old Password</label>

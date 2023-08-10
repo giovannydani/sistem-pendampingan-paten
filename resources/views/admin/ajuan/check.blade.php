@@ -85,7 +85,7 @@
                                 <label class="mt-2" >New Comment*</label >
                             </div>
                             <div class="col-md-12 form-group mt-2">
-                                <textarea name="comment" id="comment" rows="3" placeholder="Uraian Singkat Ciptaan" class="form-control">{{old('comment')}}</textarea>
+                                <textarea name="comment" id="comment" rows="3" placeholder="Komen" class="form-control">{{old('comment')}}</textarea>
                                 @error('comment') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
                             <div class="col-md-6">
