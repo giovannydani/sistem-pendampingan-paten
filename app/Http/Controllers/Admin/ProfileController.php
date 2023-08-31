@@ -82,10 +82,9 @@ class ProfileController extends Controller
         
         if ($oldEmail !== $request->email) {
             dispatch(new SendVerificationEmail($user));
-            Alert::toast('Success Mengubah Password', 'success');
         }   
 
-        Alert::toast('Success Detail Akun', 'success');
+        Alert::toast('Success Mengubah Detail Akun', 'success');
         
         return redirect()->route('admin.profile.index');
     }
