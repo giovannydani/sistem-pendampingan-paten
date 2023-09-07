@@ -9,7 +9,7 @@
 <div class="page-content">
     <section class="section">
 
-        <form action="{{ route('user.ajuan.store', ['patentDetail' => $patentDetail->id]) }}" method="post" enctype="multipart/form-data">
+        <form id="add_paten_form" action="{{ route('user.ajuan.store', ['patentDetail' => $patentDetail->id]) }}" method="post" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             {{-- detail --}}
@@ -66,7 +66,7 @@
     
             <div class="row">
                 <div class="col-md-6">
-                    <button type="submit" class="btn btn-primary me-3 mb-3"><i class="fa-solid fa-plus"></i> Submit</button>
+                    <button type="button" class="btn btn-primary me-3 mb-3" id="submit_button_form"><i class="fa-solid fa-plus"></i> Submit</button>
                     <button type="button" class="btn btn-danger me-3 mb-3"><i class="fa-solid fa-xmark"></i> Cancel</button>
                 </div>
             </div>
@@ -83,5 +83,28 @@
     var pemegangHakCiptaTable;
     var _token = "{{ csrf_token() }}";
     var _ajuan = "{{ $patentDetail->id }}";
+</script>
+<script>
+    $("#submit_button_form").on('click', function (event){
+        event.preventDefault();
+        submitAjuan($("#add_paten_form"));
+    });
+
+    function submitAjuan(event) {
+        Swal.fire({
+            title: 'Anda yakin?',
+            text: "men-submit ajuan ini",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Cancel'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                event.submit();
+            }
+        })
+    }
 </script>
 @endsection
