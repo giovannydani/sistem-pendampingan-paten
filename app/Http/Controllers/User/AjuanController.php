@@ -134,7 +134,7 @@ class AjuanController extends Controller
         $validator = Validator::make(
             data: $request->all(),
             rules: $rules,
-            // attributes: $attributes,
+            attributes: $attributes,
         );
 
         $validator->after(function (ValidationValidator $validator) use ($patentDetail) {
