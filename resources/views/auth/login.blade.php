@@ -56,11 +56,6 @@
               <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">
                 Log in
               </button>
-              @if (in_array('sso', config('app.authArray')))
-              <a href="{{route('auth.sso.ums.umsIndex')}}" class="btn btn-secondary btn-block btn-lg shadow-lg mt-5">
-                SSO UMS
-              </a>
-              @endif
             </form>
             <div class="text-center mt-5" style="font-size: 20px">
               <p class="text-gray-600">

@@ -21,26 +21,26 @@ use App\Http\Controllers\Auth\SSOController;
 $authType = explode('|', config('app.auth'));
 
 if (in_array('sso', $authType) && ! in_array('manual', $authType)){
-    Route::get('/', [SSOController::class, 'umsIndex'])->name('index');
+    Route::get('/', [SSOController::class, 'umsIndex'])->name('index')->middleware(['guest']);
 }elseif (in_array('sso', $authType) || in_array('manual', $authType)){
     Route::get('/', [LoginController::class, 'index'])->name('index');
 }
 
 if (in_array('manual', $authType)) {
     // forgot password
-    Route::group(['controller' => ForgotPasswordController::class], function (){
+    Route::group(['controller' => ForgotPasswordController::class, 'middleware' => ['guest']], function (){
         Route::get('/forgot-password', 'index')->name('password.request');
         Route::post('/forgot-password', 'handler')->name('password.email');
     });
     
     // reset password 
-    Route::group(['controller' => ResetPasswordController::class], function (){
+    Route::group(['controller' => ResetPasswordController::class, 'middleware' => ['guest']], function (){
         Route::post('/reset-password', 'handler')->name('password.update');
         Route::get('/reset-password/{token}', 'index')->name('password.reset');
     });
 }
 
-Route::group(['as' => 'auth.'], function () use ($authType){
+Route::group(['as' => 'auth.', 'middleware' => ['guest']], function () use ($authType){
     if (in_array('manual', $authType)) {
         Route::group(['prefix' => 'login', 'as' => 'login.', 'controller' => LoginController::class], function (){
             Route::get('/', 'index')->name('index');
@@ -53,7 +53,7 @@ Route::group(['as' => 'auth.'], function () use ($authType){
     }
 
     if (in_array('sso', $authType) && in_array('manual', $authType)) {
-        Route::group(['prefix' => 'sso', 'as' => 'sso.',  'controller' => SSOController::class], function (){
+        Route::group(['prefix' => 'sso', 'as' => 'sso.',  'controller' => SSOController::class, 'middleware' => ['guest']], function (){
             Route::group(['prefix' => 'ums', 'as' => 'ums.'], function (){
                 Route::get('/', 'umsIndex')->name('umsIndex');
                 Route::post('/', 'umsStore')->name('umsStore');
@@ -62,7 +62,7 @@ Route::group(['as' => 'auth.'], function () use ($authType){
     }
 
     if (in_array('sso', $authType) && ! in_array('manual', $authType)) {
-        Route::group(['prefix' => 'login', 'as' => 'login.', 'controller' => SSOController::class], function (){
+        Route::group(['prefix' => 'login', 'as' => 'login.', 'controller' => SSOController::class, 'middleware' => ['guest']], function (){
             Route::get('/', 'umsIndex')->name('index');
             Route::post('/', 'umsStore')->name('store');
         });
