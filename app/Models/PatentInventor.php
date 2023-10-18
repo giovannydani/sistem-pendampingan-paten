@@ -23,6 +23,7 @@ class PatentInventor extends Model
         'subdistrict_id',
         'email',
         'telephone',
+        'is_manageable',
     ];
 
     public function Nationality(): BelongsTo
