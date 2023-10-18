@@ -57,7 +57,8 @@
                 </div>
             </div>
 
-            @include('user.ajuan.pemohon.edit')
+            {{-- @include('user.ajuan.pemohon.edit') --}}
+            @include('user.ajuan.pemohon.multi.add')
 
             @include('user.ajuan.pecahan.edit')
 

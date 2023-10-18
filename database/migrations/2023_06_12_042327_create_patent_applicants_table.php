@@ -34,6 +34,8 @@ return new class extends Migration
             $table->foreign('subdistrict_id')->references('id')->on('subdistricts')->onDelete('cascade')->onUpdate('cascade');
             $table->string('telephone');
             $table->string('email');
+            $table->boolean('is_company')->default(0);
+            $table->boolean('is_manageable')->default(1);
             $table->timestamps();
         });
     }

@@ -29,6 +29,7 @@ use Illuminate\Validation\Validator as ValidationValidator;
 class AjuanController extends Controller
 {
     public $_minInventorCount = 1;
+    public $_minApplicantCount = 1;
 
     /**
      * Display a listing of the resource.
@@ -73,15 +74,15 @@ class AjuanController extends Controller
             "fractions_number" => [Rule::requiredIf($request->is_fractions == 'yes')],
             "fractions_date" => [Rule::requiredIf($request->is_fractions == 'yes')],
 
-            "name_applicant" => ['required'],
-            "email_applicant" => ['required'],
-            "no_telp_applicant" => ['required'],
-            "nationality_id_applicant" => ['required', 'exists:countries,id'],
-            "country_id_applicant" => ['required', 'exists:countries,id'],
-            "address_applicant" => ['required'],
-            "province_id_applicant" => [Rule::requiredIf($request->country_id_applicant == '8d1458c5-dde2-3ac3-901b-29d55074c4ec')],
-            "district_id_applicant" => [Rule::requiredIf($request->country_id_applicant == '8d1458c5-dde2-3ac3-901b-29d55074c4ec')],
-            "subdistrict_id_applicant" => [Rule::requiredIf($request->country_id_applicant == '8d1458c5-dde2-3ac3-901b-29d55074c4ec')],
+            // "name_applicant" => ['required'],
+            // "email_applicant" => ['required'],
+            // "no_telp_applicant" => ['required'],
+            // "nationality_id_applicant" => ['required', 'exists:countries,id'],
+            // "country_id_applicant" => ['required', 'exists:countries,id'],
+            // "address_applicant" => ['required'],
+            // "province_id_applicant" => [Rule::requiredIf($request->country_id_applicant == '8d1458c5-dde2-3ac3-901b-29d55074c4ec')],
+            // "district_id_applicant" => [Rule::requiredIf($request->country_id_applicant == '8d1458c5-dde2-3ac3-901b-29d55074c4ec')],
+            // "subdistrict_id_applicant" => [Rule::requiredIf($request->country_id_applicant == '8d1458c5-dde2-3ac3-901b-29d55074c4ec')],
 
 
             "invention_title_id" => ['required'],
@@ -142,6 +143,12 @@ class AjuanController extends Controller
             if ($inventor->status == false) {
                 $validator->errors()->add('inventor', $inventor->message);
             }
+            
+            $applicant = $patentDetail->isApplicantExist($this->_minApplicantCount);
+            if ($applicant->status == false) {
+                $validator->errors()->add('applicant', $applicant->message);
+            }
+
         });
 
         if ($validator->fails()) {
@@ -169,26 +176,26 @@ class AjuanController extends Controller
         $patentDetail->update($dataPatentDetail);
         
         // storing PatentDetail data
-        $dataPatentApplicant = [
-            'name' => $request->name_applicant,
-            'email' => $request->email_applicant,
-            'telephone' => $request->no_telp_applicant,
-            'nationality_id' => $request->nationality_id_applicant,
-            'country_id' => $request->country_id_applicant,
-            'address' => $request->address_applicant,
-        ];
+        // $dataPatentApplicant = [
+        //     'name' => $request->name_applicant,
+        //     'email' => $request->email_applicant,
+        //     'telephone' => $request->no_telp_applicant,
+        //     'nationality_id' => $request->nationality_id_applicant,
+        //     'country_id' => $request->country_id_applicant,
+        //     'address' => $request->address_applicant,
+        // ];
 
-        if ($request->country_id_applicant == '8d1458c5-dde2-3ac3-901b-29d55074c4ec') {
-            $dataPatentApplicant['province_id'] = $request->province_id_applicant;
-            $dataPatentApplicant['district_id'] = $request->district_id_applicant;
-            $dataPatentApplicant['subdistrict_id'] = $request->subdistrict_id_applicant;
-        }else {
-            $dataPatentApplicant['province_id'] = null;
-            $dataPatentApplicant['district_id'] = null;
-            $dataPatentApplicant['subdistrict_id'] = null;
-        }
+        // if ($request->country_id_applicant == '8d1458c5-dde2-3ac3-901b-29d55074c4ec') {
+        //     $dataPatentApplicant['province_id'] = $request->province_id_applicant;
+        //     $dataPatentApplicant['district_id'] = $request->district_id_applicant;
+        //     $dataPatentApplicant['subdistrict_id'] = $request->subdistrict_id_applicant;
+        // }else {
+        //     $dataPatentApplicant['province_id'] = null;
+        //     $dataPatentApplicant['district_id'] = null;
+        //     $dataPatentApplicant['subdistrict_id'] = null;
+        // }
         
-        $patentDetail->PatentApplicants()->create($dataPatentApplicant);
+        // $patentDetail->PatentApplicants()->create($dataPatentApplicant);
         
         // document
         $dataPatentDocument = [
@@ -301,7 +308,6 @@ class AjuanController extends Controller
     public function edit(PatentDetail $patentDetail)
     {
         $patentDetail->load([
-            'PatentApplicant',
             'PatentDocument',
             'PatentClaims',
             'PatentAttachment',
@@ -435,26 +441,26 @@ class AjuanController extends Controller
         $patentDetail->update($dataPatentDetail);
 
         // storing PatentDetail data
-        $dataPatentApplicant = [
-            'name' => $request->name_applicant,
-            'email' => $request->email_applicant,
-            'telephone' => $request->no_telp_applicant,
-            'nationality_id' => $request->nationality_id_applicant,
-            'country_id' => $request->country_id_applicant,
-            'address' => $request->address_applicant,
-        ];
+        // $dataPatentApplicant = [
+        //     'name' => $request->name_applicant,
+        //     'email' => $request->email_applicant,
+        //     'telephone' => $request->no_telp_applicant,
+        //     'nationality_id' => $request->nationality_id_applicant,
+        //     'country_id' => $request->country_id_applicant,
+        //     'address' => $request->address_applicant,
+        // ];
 
-        if ($request->country_id_applicant == '8d1458c5-dde2-3ac3-901b-29d55074c4ec') {
-            $dataPatentApplicant['province_id'] = $request->province_id_applicant;
-            $dataPatentApplicant['district_id'] = $request->district_id_applicant;
-            $dataPatentApplicant['subdistrict_id'] = $request->subdistrict_id_applicant;
-        }else {
-            $dataPatentApplicant['province_id'] = null;
-            $dataPatentApplicant['district_id'] = null;
-            $dataPatentApplicant['subdistrict_id'] = null;
-        }
+        // if ($request->country_id_applicant == '8d1458c5-dde2-3ac3-901b-29d55074c4ec') {
+        //     $dataPatentApplicant['province_id'] = $request->province_id_applicant;
+        //     $dataPatentApplicant['district_id'] = $request->district_id_applicant;
+        //     $dataPatentApplicant['subdistrict_id'] = $request->subdistrict_id_applicant;
+        // }else {
+        //     $dataPatentApplicant['province_id'] = null;
+        //     $dataPatentApplicant['district_id'] = null;
+        //     $dataPatentApplicant['subdistrict_id'] = null;
+        // }
         
-        $patentDetail->PatentApplicant()->update($dataPatentApplicant);
+        // $patentDetail->PatentApplicant()->update($dataPatentApplicant);
 
         // document
         $dataPatentDocument = [
@@ -537,6 +543,12 @@ class AjuanController extends Controller
     public function destroyInventor(PatentDetail $patentDetail, PatentInventor $patentInventor)
     {
         $patentInventor->delete();
+        return 'success';
+    }
+
+    public function destroyApplicant(PatentDetail $patentDetail, PatentApplicant $patentApplicant)
+    {
+        $patentApplicant->delete();
         return 'success';
     }
 

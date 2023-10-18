@@ -168,4 +168,22 @@ class PatentDetail extends Model
 
         return (object) $result;
     }
+
+    public function isApplicantExist(int $number)
+    {
+        if (self::PatentApplicants()->count() < $number){
+            $result = [
+                'status' => false,
+                'message' => "Pemohon harus lebih dari ". $number,
+            ];
+        }else {
+            $result = [
+                'status' => true,
+                'message' => true,
+            ];
+        }
+        // return $number;
+
+        return (object) $result;
+    }
 }

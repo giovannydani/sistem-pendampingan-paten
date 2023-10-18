@@ -42,7 +42,8 @@
                 </div>
             </div>
 
-            @include('user.ajuan.pemohon.detail')
+            {{-- @include('user.ajuan.pemohon.detail') --}}
+            @include('user.ajuan.pemohon.multi.detail')
 
             @if ($patentDetail->is_fractions)
             @include('user.ajuan.pecahan.detail')
