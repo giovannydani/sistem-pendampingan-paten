@@ -45,7 +45,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Creator</h1>
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Tambah Inventor</h1>
                 </div>
                 <div class="modal-body">
                     
@@ -175,7 +175,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Edit Creator</h1>
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Edit Inventor</h1>
                 </div>
                 <div class="modal-body">
                     

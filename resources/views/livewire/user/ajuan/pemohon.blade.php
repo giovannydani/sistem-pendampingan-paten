@@ -38,7 +38,7 @@
             @endforeach
             @if (count($applicants) < 1)
             <tr>
-                <td colspan="6" style="text-align: center;">Empty</td>
+                <td colspan="7" style="text-align: center;">Empty</td>
             </tr>
             @endif
         </tbody>
@@ -50,7 +50,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Creator</h1>
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Tambah Pemohon</h1>
                 </div>
                 <div class="modal-body">
                     
@@ -192,7 +192,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Edit Creator</h1>
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Edit Pemohon</h1>
                 </div>
                 <div class="modal-body">
                     
