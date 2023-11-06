@@ -133,8 +133,6 @@
             _endDate = $('#end_date').val();
             applicationTypeTable.destroy();
             table();
-            console.log($('#start_date').val());
-            console.log($('#end_date').val());
         });
     </script>
 @endsection
