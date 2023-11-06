@@ -6,6 +6,7 @@ use App\Enums\AjuanStatus;
 use App\Models\PatentDetail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
@@ -153,13 +154,23 @@ class AjuanController extends Controller
         //
     }
 
-    public function data() {
+    public function data(Request $request) {
+        
         $data = PatentDetail::query()
         ->with([
-            'PatentDocument'
+            'PatentDocument',
+            'Owner',
         ])
         ->orderBy('status') 
         ->IsSubmited()
+        ->when($request->input('_startDate'), function ($query) use ($request){
+            $startDate = Carbon::parse($request->input('_startDate'))->startOfDay();
+            $query->where('updated_at', '>', $startDate);
+        })
+        ->when($request->input('_endDate'), function ($query) use ($request){
+            $endDate = Carbon::parse($request->input('_endDate'))->endOfDay();
+            $query->where('updated_at', '<', $endDate);
+        })
         ->get();
 
         return DataTables::of($data)->make(true);

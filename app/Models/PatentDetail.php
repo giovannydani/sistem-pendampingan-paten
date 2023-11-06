@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\AjuanStatus;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -33,6 +34,7 @@ class PatentDetail extends Model
         'is_revision',
         'is_finish',
         'bool_fraction',
+        'submited_at',
     ];
 
     protected $casts = [
@@ -128,6 +130,13 @@ class PatentDetail extends Model
     {
         return Attribute::make(
             get: fn () => $this->status->isFinish(),
+        );
+    }
+
+    protected function submitedAt(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => Carbon::parse($this->updated_at)->format('d-m-Y'),
         );
     }
 

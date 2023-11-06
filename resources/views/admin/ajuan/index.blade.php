@@ -10,12 +10,36 @@
     <section class="section">
         <div class="card">
             <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h5>Filter Ajuan</h5>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Mulai Tanggal</label>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <input type="date" id="start_date" class="form-control" name="start_date">
+                    </div>
+                    <div class="col-md-3">
+                        <label>Sampai Tanggal</label>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <input type="date" id="end_date" class="form-control" name="end_date">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                
                 <table class="table" id="application-table">
                     <thead>
                         <tr>
                             <th>No.</th>
                             <th>Judul Invensi</th>
+                            <th>Nama yang mengajukan</th>
                             <th>Status</th>
+                            <th>Tanggal Submit</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -32,9 +56,12 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         var templateTable;
-        $(document).ready( function () {
-            var _token = "{{ csrf_token() }}";
-            applicationTypeTable =  $('#application-table').DataTable({
+        var _startDate;
+        var _endDate;
+        var _token = "{{ csrf_token() }}";
+
+        function table() {
+            applicationTypeTable = $('#application-table').DataTable({
                 "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"]],
                 processing: true,
                 serverSide: true,
@@ -50,6 +77,8 @@
                     type : 'POST',
                     data: {
                         _token:_token,
+                        _startDate : _startDate,
+                        _endDate : _endDate,
                     },
                 },
                 columns: [
@@ -61,7 +90,9 @@
                         } 
                     },
                     { data: 'patent_document.title_id' },
+                    { data: 'owner.name' },
                     { data: 'status_text' },
+                    { data: 'submited_at' },
                     {
                         orderable: false,
                         "searchable": false,
@@ -87,7 +118,23 @@
                     },
                 ]
             });
+        }
+
+        $(document).ready( function () {
+            _startDate = $('#start_date').val();
+            _endDate = $('#end_date').val();
+
+            table();
 
         } );
+        
+        $('#start_date, #end_date').on('change', function () {
+            _startDate = $('#start_date').val();
+            _endDate = $('#end_date').val();
+            applicationTypeTable.destroy();
+            table();
+            console.log($('#start_date').val());
+            console.log($('#end_date').val());
+        });
     </script>
 @endsection
