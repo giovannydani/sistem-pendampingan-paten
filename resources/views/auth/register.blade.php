@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Register</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{{ asset('assets/css/main/app.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/pages/auth.css') }}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -29,7 +30,7 @@
             <form action="{{ route('auth.register.store') }}" method="POST">
               @csrf
               <div class="form-group position-relative has-icon-left mb-4">
-                <input type="text" class="form-control form-control-xl" placeholder="Name" name="name" id="name" value="{{ old('name') }}" autocomplete="off" />
+                <input type="text" class="form-control form-control-xl" placeholder="Name" name="name" id="name" pattern="[A-Za-z]+" value="{{ old('name') }}" title="Only alphabet characters are allowed." autocomplete="off" />
                 <div class="form-control-icon">
                   <i class="bi bi-person"></i>
                 </div>
@@ -78,5 +79,22 @@
         </div>
       </div>
     </div>
+
+    <script>
+      $(document).ready(function () {
+        const nameInput = $('#name');
+
+        console.log(nameInput.val());
+
+        nameInput.on('input', function() {
+            const inputText = nameInput.val();
+            const newText = inputText.replace(/[^A-Za-z]/g, '');
+
+            if (inputText !== newText) {
+                nameInput.val(newText);
+            }
+        });
+      })
+    </script>
   </body>
 </html>
