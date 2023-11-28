@@ -99,21 +99,46 @@
                         data: 'id',
                         render: function(data, type, row){
                             var url_check = "{{url('/admin/ajuan/check')}}"+"/"+data;
+                            var url_upload_registration_certificate = "{{url('/admin/ajuan/upload_registration_certificate')}}"+"/"+data;
+                            var url_check_transfer_evidence = "{{url('/admin/ajuan/check_transfer_evidence')}}"+"/"+data;
                             var url_detail = "{{url('/admin/ajuan/detail')}}"+"/"+data;
 
-                            if (row.is_finish || row.is_revision) {
+                            if (row.is_revision) {
                                 return '\
                                 <div class="btn-group" role="group" aria-label="PIC Details Action">\
                                     <a href="'+url_detail+'" class="btn btn-primary btn-sm me-2 mb-1"><i class="fa-solid fa-info"></i> Detail</a>\
                                 </div>';
-                            }else if (row.is_admin_process) {
+                            }
+                            else if (row.is_admin_check) {
                                 return '\
                                 <div class="btn-group" role="group" aria-label="PIC Details Action">\
                                     <a href="'+url_detail+'" class="btn btn-primary btn-sm me-2 mb-1"><i class="fa-solid fa-info"></i> Detail</a>\
                                     <a href="'+url_check+'" class="btn btn-secondary btn-sm me-2 mb-1"><i class="fa-solid fa-pencil"></i> Check</a>\
                                 </div>';
                             }
-
+                            else if (row.is_admin_process) {
+                                return '\
+                                <div class="btn-group" role="group" aria-label="PIC Details Action">\
+                                    <a href="'+url_detail+'" class="btn btn-primary btn-sm me-2 mb-1"><i class="fa-solid fa-info"></i> Detail</a>\
+                                    <a href="'+url_check+'" class="btn btn-secondary btn-sm me-2 mb-1"><i class="fa-solid fa-plus"></i> Tambahkan Revisi Ajuan</a>\
+                                    <a href="'+url_upload_registration_certificate+'" class="btn btn-info btn-sm me-2 mb-1"><i class="fa-solid fa-upload"></i> Upload Surat Pencatatan</a>\
+                                </div>';
+                            }
+                            else if (row.is_certificate_finish || row.is_payment_failed || row.is_finish) {
+                                return '\
+                                <div class="btn-group" role="group" aria-label="PIC Details Action">\
+                                    <a href="'+url_detail+'" class="btn btn-primary btn-sm me-2 mb-1"><i class="fa-solid fa-info"></i> Detail</a>\
+                                    <a href="'+url_upload_registration_certificate+'" class="btn btn-secondary btn-sm me-2 mb-1"><i class="fa-solid fa-upload"></i> Upload Ulang Surat Pencatatan</a>\
+                                </div>';
+                            }
+                            else if (row.is_upload_payment) {
+                                return '\
+                                <div class="btn-group" role="group" aria-label="PIC Details Action">\
+                                    <a href="'+url_detail+'" class="btn btn-primary btn-sm me-2 mb-1"><i class="fa-solid fa-info"></i> Detail</a>\
+                                    <a href="'+url_upload_registration_certificate+'" class="btn btn-secondary btn-sm me-2 mb-1"><i class="fa-solid fa-upload"></i> Upload Ulang Surat Pencatatan</a>\
+                                    <a href="'+url_check_transfer_evidence+'" class="btn btn-info btn-sm me-2 mb-1"><i class="fa-solid fa-check"></i> Verifikasi Bukti Pembayaran</a>\
+                                </div>';
+                            }
                         }
                     },
                 ]

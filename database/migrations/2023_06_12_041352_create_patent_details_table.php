@@ -26,7 +26,7 @@ return new class extends Migration
             $table->boolean('is_fractions')->default(0);
             $table->string('fractions_number')->nullable();
             $table->date('fractions_date')->nullable();
-            $table->string('status')->default(AjuanStatus::AdminProcess->value);
+            $table->string('status')->default(AjuanStatus::AdminCheck->value);
             $table->boolean('is_submited')->default(0);
             $table->timestamps();
         });

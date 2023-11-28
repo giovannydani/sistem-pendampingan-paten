@@ -16,7 +16,7 @@ class DashboardController extends Controller
             'user_count' => User::Verified()->User()->count(),
             'admin_count' => User::Verified()->AdminAndSuperAdmin()->count(),
             'total_ajuan_count' => PatentDetail::IsSubmited()->count(),
-            'admin_process_ajuan_count' => PatentDetail::IsSubmited()->AdminProcess()->count(),
+            'admin_process_ajuan_count' => PatentDetail::IsSubmited()->AdminCheck()->count(),
             'revision_ajuan_count' => PatentDetail::IsSubmited()->Revision()->count(),
             'finish_ajuan_count' => PatentDetail::IsSubmited()->Finish()->count(),
         ];

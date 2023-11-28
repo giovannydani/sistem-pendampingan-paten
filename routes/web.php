@@ -20,7 +20,10 @@ use App\Http\Controllers\User\TemplateController as UserTemplateController;
 use App\Http\Controllers\Admin\TemplateController as AdminTemplateController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
+use App\Http\Controllers\Admin\RegistrationCertificateController;
+use App\Http\Controllers\Admin\TransferEvidenceController as AdminTransferEvidenceController;
 use App\Http\Controllers\User\ProfileController as UserProfileController;
+use App\Http\Controllers\User\TransferEvidenceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -108,19 +111,26 @@ Route::group(['middleware' => ['auth']], function (){
                 Route::get('/download/{templateDocument:id}', 'download')->name('download');
             });
             
-            Route::group(['prefix' => 'ajuan', 'as' => 'ajuan.', 'controller' => AjuanController::class], function (){
-                Route::get('/', 'index')->name('index');
-                Route::post('/data/', 'data')->name('data');
-                Route::post('/generate/', 'generateAdd')->name('generateAdd');
-                Route::put('/{patentDetail:id}', 'store')->name('store');
-                Route::get('/add/{patentDetail:id}', 'create')->name('create');
-                Route::get('/detail/{patentDetail:id}', 'show')->name('show');
-                Route::get('/log/{patentDetail:id}', 'log')->name('log');
-                Route::get('/edit/{patentDetail:id}', 'edit')->name('edit');
-                Route::put('/update/{patentDetail:id}', 'update')->name('update');
-                Route::delete('/delete/{patentDetail:id}', 'destroy')->name('destroy');
-                Route::delete('/add/{patentDetail:id}/applicant/{patentApplicant}', 'destroyApplicant')->name('destroyApplicant');
-                Route::delete('/add/{patentDetail:id}/inventor/{patentInventor}', 'destroyInventor')->name('destroyInventor');
+            Route::group(['prefix' => 'ajuan', 'as' => 'ajuan.'], function (){
+                Route::group(['controller' => AjuanController::class], function (){
+                    Route::get('/', 'index')->name('index');
+                    Route::post('/data/', 'data')->name('data');
+                    Route::post('/generate/', 'generateAdd')->name('generateAdd');
+                    Route::put('/{patentDetail:id}', 'store')->name('store');
+                    Route::get('/add/{patentDetail:id}', 'create')->name('create');
+                    Route::get('/detail/{patentDetail:id}', 'show')->name('show');
+                    Route::get('/log/{patentDetail:id}', 'log')->name('log');
+                    Route::get('/edit/{patentDetail:id}', 'edit')->name('edit');
+                    Route::put('/update/{patentDetail:id}', 'update')->name('update');
+                    Route::delete('/delete/{patentDetail:id}', 'destroy')->name('destroy');
+                    Route::delete('/add/{patentDetail:id}/applicant/{patentApplicant}', 'destroyApplicant')->name('destroyApplicant');
+                    Route::delete('/add/{patentDetail:id}/inventor/{patentInventor}', 'destroyInventor')->name('destroyInventor');
+                });
+
+                Route::group(['controller' => TransferEvidenceController::class], function (){
+                    Route::get('/upload_transfer_evidence/{patentDetail:id}', 'create')->name('create_upload_transfer_evidence');
+                    Route::post('/upload_transfer_evidence/{patentDetail:id}', 'store')->name('store_upload_transfer_evidence');
+                });
             });
         });
 
@@ -146,14 +156,29 @@ Route::group(['middleware' => ['auth']], function (){
                     Route::delete('restore/{patentType}', 'restore')->withTrashed()->name('restore');
                 });
 
-                Route::group(['prefix' => 'ajuan', 'as' => 'ajuan.', 'controller' => AdminAjuanController::class], function (){
-                    Route::get('/', 'index')->name('index');
-                    Route::post('/data', 'data')->name('data');
-                    Route::post('/{patentDetail:id}', 'store')->name('store');
-                    Route::put('/{patentDetail:id}', 'finishAjuan')->name('finishAjuan');
-                    Route::get('/check/{patentDetail:id}', 'create')->name('create');
-                    Route::get('/detail/{patentDetail:id}', 'show')->name('show');
+                Route::group(['prefix' => 'ajuan', 'as' => 'ajuan.'], function (){
+                    Route::group(['controller' => AdminAjuanController::class], function (){
+                        Route::get('/', 'index')->name('index');
+                        Route::post('/data', 'data')->name('data');
+                        Route::post('/{patentDetail:id}', 'store')->name('store');
+                        Route::put('/{patentDetail:id}', 'finishAjuan')->name('finishAjuan');
+                        Route::get('/check/{patentDetail:id}', 'create')->name('create');
+                        Route::get('/detail/{patentDetail:id}', 'show')->name('show');
+                    });
+
+                    Route::group(['controller' => RegistrationCertificateController::class], function (){
+                        Route::get('/upload_registration_certificate/{patentDetail:id}', 'create')->name('create_upload_certificate');
+                        Route::post('/upload_registration_certificate/{patentDetail:id}', 'store')->name('store_upload_certificate');
+                    });
+
+                    Route::group(['controller' => AdminTransferEvidenceController::class], function (){
+                        Route::get('/check_transfer_evidence/{patentDetail:id}', 'index')->name('index_check_transfer_evidence');
+                        Route::post('/check_transfer_evidence/{patentDetail:id}/valid', 'validEvindance')->name('valid_transfer_evidence');
+                        Route::post('/check_transfer_evidence/{patentDetail:id}/invalid', 'invalidEvindance')->name('invalid_transfer_evidence');
+                    });
                 });
+
+
 
                 // template
                 Route::group(['prefix' => 'template', 'as' => 'template.', 'controller' => AdminTemplateController::class], function () {

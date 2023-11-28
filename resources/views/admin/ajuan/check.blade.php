@@ -56,19 +56,7 @@
             @include('user.ajuan.isi_dokumen.detail')
 
             @include('user.ajuan.attachment.detail')
-        
-            {{-- @if ($patentDetail->PatentNewComment)
-            <div class="card">
-                <div class="card-body">
-                    <div class="col-md-12">
-                        <label class="mt-2" >Comment*</label >
-                    </div>
-                    <div class="col-md-12 form-group mt-2">
-                        <textarea rows="3" placeholder="Uraian Singkat Ciptaan" class="form-control" readonly disabled>{{$patentDetail->PatentNewComment->comment}}</textarea>
-                    </div>
-                </div>
-            </div>
-            @endif --}}
+            
             <div class="card">
                 <div class="card-body">
                     <form id="comment_paten_form" action="{{route('admin.ajuan.store', ['patentDetail' => $patentDetail->id])}}" method="post" enctype="multipart/form-data">
@@ -91,7 +79,7 @@
                             </div>
                             <div class="col-md-6">
                                 <button class="btn btn-primary" id="submit_button_comment_form" type="button">Submit Comment</button>
-                                <button class="btn btn-secondary" id="finish_button_comment_form" type="button">Finish Ajuan</button>
+                                <button class="btn btn-secondary" id="finish_button_comment_form" type="button">Lanjutkan Proses Ajuan</button>
                             </div>
                         </div>
                     </form>
@@ -141,12 +129,12 @@
         var url_redirect = "{{route('admin.ajuan.index')}}";
         Swal.fire({
             title: 'Anda yakin',
-            text: "Ingin Menyelesaikan Ajuan Ini?",
+            text: "Ingin melanjutkan proses ajuan ini?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Ya, Selesaikan',
+            confirmButtonText: 'Ya',
             cancelButtonText: 'Cancel'
             }).then((result) => {
             if (result.isConfirmed) {
@@ -156,8 +144,8 @@
                     data: {_token:_token},
                     success: function(data) {
                         Swal.fire({
-                            title: 'Sukses',
-                            text: "Menyelesaikan Ajuan",
+                            title: 'Silahkan',
+                            text: "Proses Surat Pencatatan",
                             icon: 'success',
                             confirmButtonColor: '#3085d6',
                             cancelButtonColor: '#d33',

@@ -115,7 +115,7 @@ class User extends Authenticatable implements MustVerifyEmail
     
     public function applications_process()
     {
-        return $this->hasMany(PatentDetail::class, 'owner_id')->where('status', AjuanStatus::AdminProcess->value)->where('is_submited', 1);
+        return $this->hasMany(PatentDetail::class, 'owner_id')->where('status', AjuanStatus::AdminCheck->value)->where('is_submited', 1);
     }
     
     public function applications_revision()

@@ -72,22 +72,45 @@
                             var url_edit = "{{url('/ajuan/edit')}}"+"/"+data;
                             var url_log = "{{url('/ajuan/log')}}"+"/"+data;
                             var url_detail = "{{url('/ajuan/detail')}}"+"/"+data;
+                            var url_upload_transfer_evidence = "{{url('/ajuan/upload_transfer_evidence')}}"+"/"+data;
                             var delete_action = "onclick=\"deleteAjuan('"+data+"')\"";
 
-                            if (row.is_admin_process || row.is_finish) {
+                            if (row.is_admin_check) {
                                 return '\
                                 <div class="btn-group" role="group" aria-label="PIC Details Action">\
                                     <a href="'+url_detail+'" class="btn btn-primary btn-sm me-2 mb-1"><i class="fa-solid fa-info"></i> Detail</a>\
+                                </div>';
+                            }
+                            else if (row.is_admin_process || row.is_upload_payment) {
+                                return '\
+                                <div class="btn-group" role="group" aria-label="PIC Details Action">\
+                                    <a href="'+url_detail+'" class="btn btn-primary btn-sm me-2 mb-1"><i class="fa-solid fa-info"></i> Detail</a>\
+                                </div>';
+                            }
+                            else if (row.is_certificate_finish || row.is_payment_failed) {
+                                return '\
+                                <div class="btn-group" role="group" aria-label="PIC Details Action">\
+                                    <a href="'+url_detail+'" class="btn btn-primary btn-sm me-2 mb-1"><i class="fa-solid fa-info"></i> Detail</a>\
+                                    <a href="'+url_upload_transfer_evidence+'" class="btn btn-secondary btn-sm me-2 mb-1"><i class="fa-solid fa-info"></i> Upload Bukti Pembayaran</a>\
+                                </div>';
+                            }
+                            else if (row.is_revision) {
+                                return '\
+                                <div class="btn-group" role="group" aria-label="PIC Details Action">\
+                                    <a href="'+url_detail+'" class="btn btn-primary btn-sm me-2 mb-1"><i class="fa-solid fa-info"></i> Detail</a>\
+                                    <a href="'+url_log+'" class="btn btn-secondary btn-sm me-2 mb-1"><i class="fa-solid fa-book"></i> Log</a>\
+                                    <a href="'+url_edit+'" class="btn btn-warning btn-sm me-2 mb-1"><i class="fa-solid fa-pen-to-square"></i> Edit</a>\
                                     <button type="button" class="btn btn-sm btn-danger mb-1 me-2" '+delete_action+'><i class="fa-solid fa-trash-can"></i> Delete</button>\
-                                    </div>';
-                                }else if (row.is_revision) {
-                                    return '\
-                                    <div class="btn-group" role="group" aria-label="PIC Details Action">\
-                                        <a href="'+url_detail+'" class="btn btn-primary btn-sm me-2 mb-1"><i class="fa-solid fa-info"></i> Detail</a>\
-                                        <a href="'+url_log+'" class="btn btn-secondary btn-sm me-2 mb-1"><i class="fa-solid fa-book"></i> Log</a>\
-                                        <a href="'+url_edit+'" class="btn btn-warning btn-sm me-2 mb-1"><i class="fa-solid fa-pen-to-square"></i> Edit</a>\
-                                        <button type="button" class="btn btn-sm btn-danger mb-1 me-2" '+delete_action+'><i class="fa-solid fa-trash-can"></i> Delete</button>\
-                                    </div>';
+                                </div>';
+                            }
+                            else if (row.is_finish) {
+                                var link_certificate = row.registration_certificate['file_url'];
+
+                                return '\
+                                <div class="btn-group" role="group" aria-label="PIC Details Action">\
+                                    <a href="'+url_detail+'" class="btn btn-primary btn-sm me-2 mb-1"><i class="fa-solid fa-info"></i> Detail</a>\
+                                    <a href="'+link_certificate+'" target="_blank" class="btn btn-secondary btn-sm me-2 mb-1"><i class="fa-solid fa-book"></i> Download Surat Pencatatan</a>\
+                                </div>';
                             }
 
                         }

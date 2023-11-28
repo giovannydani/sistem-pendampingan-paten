@@ -6,7 +6,9 @@ use App\Enums\AjuanStatus;
 use App\Models\PatentDetail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\RegistrationCertificate;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
@@ -62,6 +64,15 @@ class AjuanController extends Controller
         // return $patentDetail;
         return view('admin.ajuan.check', $data);
     }
+    
+    public function createUploadCertificate(PatentDetail $patentDetail)
+    {
+        $data = [
+            'patentDetail' => $patentDetail,
+        ];
+
+        return view('admin.ajuan.upload_certificate.add', $data);
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -86,6 +97,42 @@ class AjuanController extends Controller
         Alert::toast('Success Menabahkan Komen ke Ajuan', 'success');
 
         return to_route('admin.ajuan.index');
+    }
+
+    public function storeUploadCertificate(Request $request, PatentDetail $patentDetail)
+    {
+        Validator::make(
+            data: $request->all(),
+            rules: [
+                'file' => ['required', 'file'],
+            ],
+        )->validate();
+
+        $reUpload = false;
+
+        if ($patentDetail->RegistrationCertificate()->exists()) {
+            Storage::delete($patentDetail->RegistrationCertificate->file);
+
+            $patentDetail->RegistrationCertificate()->delete();
+
+            $reUpload = true;
+        }
+
+        RegistrationCertificate::create([
+            'detail_id' => $patentDetail->id,
+            'file' => $request->file('file')->store('registration_certificate'),
+            'file_name' => $request->file('file')->getClientOriginalName(),
+        ]);
+
+        if ($reUpload) {
+            $patentDetail->update([
+                'status' => AjuanStatus::CertificateFinish,
+            ]);
+        }
+
+        Alert::toast('Success Upload Certificate', 'success');
+
+        return redirect()->to(route('admin.ajuan.index'));
     }
 
     /**
@@ -178,7 +225,8 @@ class AjuanController extends Controller
 
     public function finishAjuan(PatentDetail $patentDetail) {
         $patentDetail->update([
-            'status' => AjuanStatus::Finish,
+            // 'status' => AjuanStatus::Finish,
+            'status' => AjuanStatus::AdminProcess,
         ]);
 
         return "success";

@@ -30,8 +30,12 @@ class PatentDetail extends Model
 
     protected $appends = [
         'status_text',
-        'is_admin_process',
+        'is_admin_check',
         'is_revision',
+        'is_admin_process',
+        'is_certificate_finish',
+        'is_upload_payment',
+        'is_payment_failed',
         'is_finish',
         'bool_fraction',
         'submited_at',
@@ -94,6 +98,16 @@ class PatentDetail extends Model
         return $this->hasOne(PatentComment::class, 'detail_id')->orderBy('created_at', 'desc');
     }
 
+    public function RegistrationCertificate(): HasOne
+    {
+        return $this->hasOne(RegistrationCertificate::class, 'detail_id')->orderBy('created_at', 'desc');
+    }
+
+    public function TransferEvidence(): HasOne
+    {
+        return $this->hasOne(TransferEvidence::class, 'detail_id')->orderBy('created_at', 'desc');
+    }
+
     protected function statusText(): Attribute
     {
         return Attribute::make(
@@ -112,10 +126,10 @@ class PatentDetail extends Model
         );
     }
 
-    protected function isAdminProcess(): Attribute
+    protected function isAdminCheck(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->status->isAdminProcess(),
+            get: fn () => $this->status->isAdminCheck(),
         );
     }
 
@@ -123,6 +137,34 @@ class PatentDetail extends Model
     {
         return Attribute::make(
             get: fn () => $this->status->isRevision(),
+        );
+    }
+
+    protected function isAdminProcess(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->status->isAdminProcess(),
+        );
+    }
+
+    protected function isCertificateFinish(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->status->isCertificateFinish(),
+        );
+    }
+
+    protected function isUploadPayment(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->status->isUploadPayment(),
+        );
+    }
+
+    protected function isPaymentFailed(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->status->isPaymentFailed(),
         );
     }
 
@@ -140,9 +182,9 @@ class PatentDetail extends Model
         );
     }
 
-    public function scopeAdminProcess(Builder $query): void
+    public function scopeAdminCheck(Builder $query): void
     {
-        $query->where('status', AjuanStatus::AdminProcess->value);
+        $query->where('status', AjuanStatus::AdminCheck->value);
     }
 
     public function scopeRevision(Builder $query): void

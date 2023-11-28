@@ -24,6 +24,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 use App\Models\ParameterPatentCorrespondence;
+use App\Models\TransferEvidence;
 use Illuminate\Validation\Validator as ValidationValidator;
 
 class AjuanController extends Controller
@@ -59,13 +60,25 @@ class AjuanController extends Controller
         // return $data['patentDetail']->PatentCorrespondent;
         return view('user.ajuan.add', $data);
     }
+        
+    public function createUploadTransferEvidence(PatentDetail $patentDetail)
+    {
+        if ( $patentDetail->is_certificate_finish || $patentDetail->is_payment_failed) {
+            $data = [
+                'patentDetail' => $patentDetail,
+            ];
+    
+            return view('user.ajuan.transfer_evidence.add', $data);
+        }else {
+            return abort(404);
+        }
+    }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request, PatentDetail $patentDetail)
     {
-        // return $request;
         $rules = [
             "patent_type_id" => ['required', 'exists:patent_types,id'],
             "applicant_criteria_id" => ['required', 'exists:applicant_criterias,id'],
@@ -73,17 +86,6 @@ class AjuanController extends Controller
             "is_fractions" => ['required'],
             "fractions_number" => [Rule::requiredIf($request->is_fractions == 'yes')],
             "fractions_date" => [Rule::requiredIf($request->is_fractions == 'yes')],
-
-            // "name_applicant" => ['required'],
-            // "email_applicant" => ['required'],
-            // "no_telp_applicant" => ['required'],
-            // "nationality_id_applicant" => ['required', 'exists:countries,id'],
-            // "country_id_applicant" => ['required', 'exists:countries,id'],
-            // "address_applicant" => ['required'],
-            // "province_id_applicant" => [Rule::requiredIf($request->country_id_applicant == '8d1458c5-dde2-3ac3-901b-29d55074c4ec')],
-            // "district_id_applicant" => [Rule::requiredIf($request->country_id_applicant == '8d1458c5-dde2-3ac3-901b-29d55074c4ec')],
-            // "subdistrict_id_applicant" => [Rule::requiredIf($request->country_id_applicant == '8d1458c5-dde2-3ac3-901b-29d55074c4ec')],
-
 
             "invention_title_id" => ['required'],
             "claim_add.*" => ['required', new required_striptags],
@@ -97,6 +99,8 @@ class AjuanController extends Controller
             "abstract_attachment" => ['required', File::types(['pdf'])->max(5000)],
             "technical_pict_attachment" => ['required', File::types(['pdf'])->max(5000)],
             "pict_to_show_on_announcement_attachment" => ['required', File::types(['pdf'])->max(5000)],
+            "transfer_of_rights_letter_attachment" => ['required', File::types(['pdf'])->max(5000)],
+            "power_of_attorney_attachment" => ['required', File::types(['pdf'])->max(5000)],
         ];
 
         $attributes = [
@@ -130,6 +134,8 @@ class AjuanController extends Controller
             "abstract_attachment" => "Abstrak",
             "technical_pict_attachment" => "Gambar teknik",
             "pict_to_show_on_announcement_attachment" => "Gambar yang akan digunakan di pengumuman",
+            "transfer_of_rights_letter_attachment" => "Surat pengalihan hak",
+            "power_of_attorney_attachment" => "Surat kuasa",
         ];
         
         $validator = Validator::make(
@@ -159,7 +165,7 @@ class AjuanController extends Controller
         $dataPatentDetail = [
             'patent_type_id' => $request->patent_type_id, 
             'applicant_criterias_id' => $request->applicant_criteria_id,
-            'status' => AjuanStatus::AdminProcess,
+            'status' => AjuanStatus::AdminCheck,
             'is_submited' => 1,
         ];
 
@@ -174,28 +180,6 @@ class AjuanController extends Controller
         }
         
         $patentDetail->update($dataPatentDetail);
-        
-        // storing PatentDetail data
-        // $dataPatentApplicant = [
-        //     'name' => $request->name_applicant,
-        //     'email' => $request->email_applicant,
-        //     'telephone' => $request->no_telp_applicant,
-        //     'nationality_id' => $request->nationality_id_applicant,
-        //     'country_id' => $request->country_id_applicant,
-        //     'address' => $request->address_applicant,
-        // ];
-
-        // if ($request->country_id_applicant == '8d1458c5-dde2-3ac3-901b-29d55074c4ec') {
-        //     $dataPatentApplicant['province_id'] = $request->province_id_applicant;
-        //     $dataPatentApplicant['district_id'] = $request->district_id_applicant;
-        //     $dataPatentApplicant['subdistrict_id'] = $request->subdistrict_id_applicant;
-        // }else {
-        //     $dataPatentApplicant['province_id'] = null;
-        //     $dataPatentApplicant['district_id'] = null;
-        //     $dataPatentApplicant['subdistrict_id'] = null;
-        // }
-        
-        // $patentDetail->PatentApplicants()->create($dataPatentApplicant);
         
         // document
         $dataPatentDocument = [
@@ -250,6 +234,12 @@ class AjuanController extends Controller
         if($request->pict_to_show_on_announcement_attachment){
             $dataPatentAttachment['attachment']['pict_to_show_on_announcement'] = $request->file('pict_to_show_on_announcement_attachment')->store('attachment_patent_'.$patentDetail->id);
         }
+        if($request->transfer_of_rights_letter_attachment){
+            $dataPatentAttachment['attachment']['transfer_of_rights_letter'] = $request->file('transfer_of_rights_letter_attachment')->store('attachment_patent_'.$patentDetail->id);
+        }
+        if($request->power_of_attorney_attachment){
+            $dataPatentAttachment['attachment']['power_of_attorney'] = $request->file('power_of_attorney_attachment')->store('attachment_patent_'.$patentDetail->id);
+        }
 
         $patentDetail->PatentAttachment()->create($dataPatentAttachment);
 
@@ -258,6 +248,36 @@ class AjuanController extends Controller
         return to_route('user.ajuan.index');
 
         // return $patentDetail;
+    }
+    
+    public function storeUploadTransferEvidence(Request $request, PatentDetail $patentDetail)
+    {
+        Validator::make(
+            data: $request->all(),
+            rules: [
+                'file' => ['required', 'file'],
+            ],
+        )->validate();
+
+        if ($patentDetail->TransferEvidence()->exists()) {
+            Storage::delete($patentDetail->TransferEvidence->file);
+
+            $patentDetail->TransferEvidence()->delete();
+        }
+
+        TransferEvidence::create([
+            'detail_id' => $patentDetail->id,
+            'file' => $request->file('file')->store('transfer_evidence'),
+            'file_name' => $request->file('file')->getClientOriginalName(),
+        ]);
+
+        $patentDetail->update([
+            'status' => AjuanStatus::UploadPayment,
+        ]);
+
+        Alert::toast('Success Upload Transfer Evidence', 'success');
+
+        return redirect()->to(route('user.ajuan.index'));
     }
 
     /**
@@ -367,6 +387,8 @@ class AjuanController extends Controller
             "abstract_attachment" => [File::types(['pdf'])->max(5000)],
             "technical_pict_attachment" => [File::types(['pdf'])->max(5000)],
             "pict_to_show_on_announcement_attachment" => [File::types(['pdf'])->max(5000)],
+            "transfer_of_rights_letter_attachment" => ['required', File::types(['pdf'])->max(5000)],
+            "power_of_attorney_attachment" => ['required', File::types(['pdf'])->max(5000)],
         ];
 
         $attributes = [
@@ -400,6 +422,8 @@ class AjuanController extends Controller
             "abstract_attachment" => "Abstrak",
             "technical_pict_attachment" => "Gambar teknik",
             "pict_to_show_on_announcement_attachment" => "Gambar yang akan digunakan di pengumuman",
+            "transfer_of_rights_letter_attachment" => "Surat pengalihan hak",
+            "power_of_attorney_attachment" => "Surat kuasa",
         ];
         
         $validator = Validator::make(
@@ -424,7 +448,7 @@ class AjuanController extends Controller
             'patent_type_id' => $request->patent_type_id, 
             'applicant_criterias_id' => $request->applicant_criteria_id,
             // 'is_fractions' => $request->is_fractions,
-            'status' => AjuanStatus::AdminProcess,
+            'status' => AjuanStatus::AdminCheck,
             'is_submited' => 1,
         ];
 
@@ -439,28 +463,6 @@ class AjuanController extends Controller
         }
         
         $patentDetail->update($dataPatentDetail);
-
-        // storing PatentDetail data
-        // $dataPatentApplicant = [
-        //     'name' => $request->name_applicant,
-        //     'email' => $request->email_applicant,
-        //     'telephone' => $request->no_telp_applicant,
-        //     'nationality_id' => $request->nationality_id_applicant,
-        //     'country_id' => $request->country_id_applicant,
-        //     'address' => $request->address_applicant,
-        // ];
-
-        // if ($request->country_id_applicant == '8d1458c5-dde2-3ac3-901b-29d55074c4ec') {
-        //     $dataPatentApplicant['province_id'] = $request->province_id_applicant;
-        //     $dataPatentApplicant['district_id'] = $request->district_id_applicant;
-        //     $dataPatentApplicant['subdistrict_id'] = $request->subdistrict_id_applicant;
-        // }else {
-        //     $dataPatentApplicant['province_id'] = null;
-        //     $dataPatentApplicant['district_id'] = null;
-        //     $dataPatentApplicant['subdistrict_id'] = null;
-        // }
-        
-        // $patentDetail->PatentApplicant()->update($dataPatentApplicant);
 
         // document
         $dataPatentDocument = [
@@ -522,6 +524,14 @@ class AjuanController extends Controller
             Storage::delete($patentDetail->PatentAttachment->attachment['pict_to_show_on_announcement']);
             $dataPatentAttachment['attachment->pict_to_show_on_announcement'] = $request->file('pict_to_show_on_announcement_attachment')->store('attachment_patent_'.$patentDetail->id);
         }
+        if($request->transfer_of_rights_letter_attachment){
+            Storage::delete($patentDetail->PatentAttachment->attachment['transfer_of_rights_letter']);
+            $dataPatentAttachment['attachment->transfer_of_rights_letter'] = $request->file('transfer_of_rights_letter_attachment')->store('attachment_patent_'.$patentDetail->id);
+        }
+        if($request->power_of_attorney_attachment){
+            Storage::delete($patentDetail->PatentAttachment->attachment['power_of_attorney']);
+            $dataPatentAttachment['attachment->power_of_attorney'] = $request->file('power_of_attorney_attachment')->store('attachment_patent_'.$patentDetail->id);
+        }
 
         $patentDetail->PatentAttachment()->update($dataPatentAttachment);
 
@@ -555,7 +565,10 @@ class AjuanController extends Controller
     public function data() {
         $data = Auth::user()->applications;
 
-        $data->load('PatentDocument');
+        $data->load([
+            'PatentDocument',
+            'RegistrationCertificate'
+        ]);
 
         return DataTables::of($data)->make(true);
     }

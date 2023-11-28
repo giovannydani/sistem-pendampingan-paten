@@ -85,6 +85,30 @@
                 </div>
             </div>
             @endif
+            
+            @if ($patentDetail->PatentAttachment->attachment['power_of_attorney'])
+            <div class="col-md-4">
+                <div class="card" style="width: 18rem; background-color: #435ebe">
+                    <i class="fa-solid fa-file card-img-top pt-5" style="font-size: 100px; text-align: center;  color: white"></i>
+                    <div class="card-body" style="text-align: center">
+                        <h5 class="card-title" style="text-align: center; color: white">Surat Kuasa</h5>
+                        <a href="{{asset('storage/'. $patentDetail->PatentAttachment->attachment['power_of_attorney'])}}" target="_blank" class="btn btn-secondary">Open</a>
+                    </div>
+                </div>
+            </div>
+            @endif
+            
+            @if ($patentDetail->PatentAttachment->attachment['transfer_of_rights_letter'])
+            <div class="col-md-4">
+                <div class="card" style="width: 18rem; background-color: #435ebe">
+                    <i class="fa-solid fa-file card-img-top pt-5" style="font-size: 100px; text-align: center;  color: white"></i>
+                    <div class="card-body" style="text-align: center">
+                        <h5 class="card-title" style="text-align: center; color: white">Surat Pengalihan Hak</h5>
+                        <a href="{{asset('storage/'. $patentDetail->PatentAttachment->attachment['transfer_of_rights_letter'])}}" target="_blank" class="btn btn-secondary">Open</a>
+                    </div>
+                </div>
+            </div>
+            @endif
         </div>
     </div>
 </div>
