@@ -225,7 +225,6 @@ class AjuanController extends Controller
 
     public function finishAjuan(PatentDetail $patentDetail) {
         $patentDetail->update([
-            // 'status' => AjuanStatus::Finish,
             'status' => AjuanStatus::AdminProcess,
         ]);
 
